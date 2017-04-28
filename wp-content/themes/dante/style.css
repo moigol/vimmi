@@ -302,13 +302,13 @@
 
 }
 body {
-	font-family: "source_sans_proregular", Arial, Helvetica, Tahoma, sans-serif;
+	font-family: Arial, Helvetica, Tahoma, sans-serif;
 }
 h1, h2, h3, h4, h5, .custom-caption p, span.dropcap1, span.dropcap2, span.dropcap3, span.dropcap4, .spb_call_text, .impact-text, .impact-text-large, .testimonial-text, .header-advert, .sf-count-asset .count-number, #base-promo, .sf-countdown, .sf-icon-character, .fancy-heading h1 {
-	font-family: "Museo500Regular", Arial, Helvetica, Tahoma, sans-serif;
+	font-family: Arial, Helvetica, Tahoma, sans-serif;
 }
 strong, .sf-button, h6, .standard-post-date, .sf-count-asset h6.count-subject, .progress-bar-wrap .bar-text > span.progress-value, .portfolio-showcase-wrap ul li .item-info span.item-title, table.sf-table th, .team-member figcaption span, .read-more-button, .pagination-wrap li span.current, #respond .form-submit input#submit, .twitter-link a, .comment-meta .comment-author, .woocommerce span.onsale, .woocommerce .wc-new-badge, .woocommerce .out-of-stock-badge, .woocommerce .free-badge, .woocommerce a.button.alt, .woocommerce .coupon input.apply-coupon, .bag-product-title a, .woocommerce .shipping-calculator-form .update-totals-button button, table.totals_table tr.total, .woocommerce .button.update-cart-button, .woocommerce .button.checkout-button, #product-accordion .accordion-toggle, .woocommerce ul.products li.product-category h3 {
-	font-family: "source_sans_probold", Arial, Helvetica, Tahoma, sans-serif;
+	font-family: Arial, Helvetica, Tahoma, sans-serif;
 	letter-spacing: 1.8px;
 	font-weight: normal!important;
 }
