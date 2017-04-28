@@ -55,7 +55,7 @@ class SwiftPageBuilderShortcode_portfolio extends SwiftPageBuilderShortcode {
 	        $items = sf_portfolio_items($display_type, $columns, $show_title, $show_subtitle, $show_excerpt, $hover_show_excerpt, $excerpt_length, $item_count, $category, $exclude_categories, $pagination, $sidebars);
 	        
 	        
-			/* PAGE BUILDER OUTPUT
+			/* PAGE BUILDER OUTPUT
 			================================================== */ 
     		$width = spb_translateColumnWidthToSpan($width);
     		$el_class = $this->getExtraClass($el_class);
@@ -71,7 +71,7 @@ class SwiftPageBuilderShortcode_portfolio extends SwiftPageBuilderShortcode {
             $output .= "\n\t".'</div> '.$this->endBlockComment($width);
     
     		if ($display_type == "masonry-fw" || $display_type == "masonry-gallery-fw") {
-    			$output = $this->startRow($el_position, '', true) . $output . $this->endRow($el_position, '', true);
+    			$output = $this->startRow($el_position, '', true, "full-width") . $output . $this->endRow($el_position, '', true);
     		} else {
     		    $output = $this->startRow($el_position) . $output . $this->endRow($el_position);
     		}

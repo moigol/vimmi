@@ -4,7 +4,7 @@
 	*	Header Functions
 	*	------------------------------------------------
 	*	Swift Framework
-	* 	Copyright Swift Ideas 2014 - http://www.swiftideas.net
+	* 	Copyright Swift Ideas 2016 - http://www.swiftideas.net
 	*
 	*	sf_top_bar()
 	*	sf_header()
@@ -301,15 +301,15 @@
 			$show_cart = $options['show_cart'];
 			$logo = $retina_logo = $light_logo = $dark_logo = "";
 			if (isset($options['logo_upload'])) {
-			$logo = $options['logo_upload'];
+			$logo = __( $options['logo_upload'] , 'swiftframework' );
 			}
 			if (isset($options['retina_logo_upload'])) {
-			$retina_logo = $options['retina_logo_upload'];
+			$retina_logo = __( $options['retina_logo_upload'] , 'swiftframework' );
 			}
 
 			// Light Logo
 			if (isset($options['light_logo_upload'])) {
-			$light_logo = $options['light_logo_upload'];
+			$light_logo = __( $options['light_logo_upload'] , 'swiftframework' );
 			}
 			if ( $light_logo != "" ) {
 			    $logo_class .= " has-light-logo";
@@ -318,7 +318,7 @@
 
 			// Dark Logo
 			if (isset($options['dark_logo_upload'])) {
-				$dark_logo = $options['dark_logo_upload'];
+				$dark_logo = __( $options['dark_logo_upload'] , 'swiftframework' );
 			}
 			if ( $dark_logo != "" ) {
 			    $logo_class .= " has-dark-logo";
@@ -330,7 +330,7 @@
 
 			$logo_output = "";
 			$logo_alt = get_bloginfo( 'name' );
-			$logo_link_url = home_url();
+			$logo_link_url = apply_filters( 'sf_logo_link_url', home_url() );
 
 
 			// LOGO OUTPUT
@@ -538,8 +538,7 @@
 			$woo_links_output .= '<nav class="'.$position.'">'. "\n";
 			$woo_links_output .= '<ul class="menu">'. "\n";
 			if (is_user_logged_in()) {
-				global $current_user;
-				get_currentuserinfo();
+				$current_user = wp_get_current_user();
 				$woo_links_output .= '<li class="tb-welcome">' . __("Welcome", "swiftframework") . " " . $current_user->display_name . '</li>'. "\n";
 			} else {
 				$woo_links_output .= '<li class="tb-welcome">' . __("Welcome", "swiftframework") . '</li>'. "\n";
@@ -669,10 +668,11 @@
 					$show_cart_count = $options['show_cart_count'];
 				}
 
-				$cart_total = $woocommerce->cart->get_cart_total();
+				$cart_total = WC()->cart->get_cart_total();
 				$cart_count = $woocommerce->cart->cart_contents_count;
 				$cart_count_text = sf_product_items_text($cart_count);
-
+				$price_display_suffix  = get_option( 'woocommerce_price_display_suffix' );
+				
 				if ($show_cart_count) {
 					$cart_output .= '<li class="parent shopping-bag-item"><a class="cart-contents" href="'.$woocommerce->cart->get_cart_url().'" title="'.__("View your shopping cart", "swiftframework").'"><i class="ss-cart"></i>'.$cart_total.' ('.$cart_count.')</a>';
 				} else {
@@ -689,22 +689,26 @@
 
 	            	$cart_output .= '<div class="bag-contents">';
 
-	            	foreach ($woocommerce->cart->cart_contents as $cart_item_key => $cart_item) {
+	            	foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
 
-	                    $bag_product = $cart_item['data'];
-	                    $product_title = $bag_product->get_title();
-	                    $product_short_title = (strlen($product_title) > 25) ? substr($product_title, 0, 22) . '...' : $product_title;
+	                    $_product     		 = apply_filters( 'woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
+	                    $price 				 = apply_filters( 'woocommerce_cart_item_price', $woocommerce->cart->get_product_price( $_product ), $cart_item, $cart_item_key );
+	                    $product_title       = $_product->get_title();
+	                    $product_short_title = ( strlen( $product_title ) > 25 ) ? substr( $product_title, 0, 22 ) . '...' : $product_title;
 
-	                    if ($bag_product->exists() && $cart_item['quantity']>0) {
+	                    if ( $_product && $_product->exists() && $cart_item['quantity'] > 0 && apply_filters( 'woocommerce_cart_item_visible', true, $cart_item, $cart_item_key ) ) {
 	                        $cart_output .= '<div class="bag-product clearfix">';
-	                      	$cart_output .= '<figure><a class="bag-product-img" href="'.get_permalink($cart_item['product_id']).'">'.$bag_product->get_image().'</a></figure>';
+	                      	$cart_output .= '<figure><a class="bag-product-img" href="'.get_permalink($cart_item['product_id']).'">'.$_product->get_image().'</a></figure>';
 	                        $cart_output .= '<div class="bag-product-details">';
-	                        $cart_output .= '<div class="bag-product-title"><a href="'.get_permalink($cart_item['product_id']).'">' . apply_filters('woocommerce_cart_widget_product_title', $product_short_title, $bag_product) . '</a></div>';
+	                        $cart_output .= '<div class="bag-product-title"><a href="'.get_permalink($cart_item['product_id']).'">' . apply_filters('woocommerce_cart_widget_product_title', $product_short_title, $_product) . '</a></div>';
 	                        $cart_output .= '<div class="bag-product-price">'.__("Unit Price:", "swiftframework").'
-	                        '.woocommerce_price($bag_product->get_price()).'</div>';
+	                        '.$price.'</div>';
 	                        $cart_output .= '<div class="bag-product-quantity">'.__('Quantity:', 'swiftframework').' '.$cart_item['quantity'].'</div>';
+	                        if ( $price_display_suffix ) {
+	                        	$cart_output .= '<small class="woocommerce-price-suffix">'. $price_display_suffix . '</small>';
+	                        }
 	                        $cart_output .= '</div>';
-	                        $cart_output .= apply_filters( 'woocommerce_cart_item_remove_link', sprintf('<a href="%s" class="remove" title="%s">&times;</a>', esc_url( $woocommerce->cart->get_remove_url( $cart_item_key ) ), __('Remove this item', 'woocommerce') ), $cart_item_key );
+	                        $cart_output .= apply_filters( 'woocommerce_cart_item_remove_link', sprintf('<a href="%s" class="remove" title="%s">&times;</a>', esc_url( $woocommerce->cart->get_remove_url( $cart_item_key ) ), __('Remove this item', 'swiftframework') ), $cart_item_key );
 
 	                        $cart_output .= '</div>';
 	                	}
@@ -716,15 +720,15 @@
 
 	                if ( version_compare( WOOCOMMERCE_VERSION, "2.1.0" ) >= 0 ) {
 
-	                $cart_url = apply_filters( 'woocommerce_get_checkout_url', WC()->cart->get_cart_url() );
-	                $checkout_url = apply_filters( 'woocommerce_get_checkout_url', WC()->cart->get_checkout_url() );
-
-	                $cart_output .= '<a class="sf-button standard sf-icon-reveal bag-button" href="'.esc_url( $cart_url ).'"><i class="ss-view"></i><span class="text">'. __('View shopping bag', 'swiftframework').'</span></a>';
-	               	$cart_output .= '<a class="sf-button standard sf-icon-reveal checkout-button" href="'.esc_url( $checkout_url ).'"><i class="ss-creditcard"></i><span class="text">'.__('Proceed to checkout', 'swiftframework').'</span></a>';
+		                $cart_url = apply_filters( 'woocommerce_get_checkout_url', WC()->cart->get_cart_url() );
+		                $checkout_url = apply_filters( 'woocommerce_get_checkout_url', WC()->cart->get_checkout_url() );
+	
+		                $cart_output .= '<a class="sf-button standard sf-icon-reveal bag-button" href="'.esc_url( $cart_url ).'"><i class="ss-view"></i><span class="text">'. __('View shopping bag', 'swiftframework').'</span></a>';
+		               	$cart_output .= '<a class="sf-button standard sf-icon-reveal checkout-button" href="'.esc_url( $checkout_url ).'"><i class="ss-creditcard"></i><span class="text">'.__('Proceed to checkout', 'swiftframework').'</span></a>';
 
 	               	} else {
 
-	               	$cart_output .= '<a class="sf-button standard sf-icon-reveal bag-button" href="'.esc_url( $woocommerce->cart->get_cart_url() ).'"><i class="ss-view"></i><span class="text">'. __('View shopping bag', 'swiftframework').'</span></a>';
+	               		$cart_output .= '<a class="sf-button standard sf-icon-reveal bag-button" href="'.esc_url( $woocommerce->cart->get_cart_url() ).'"><i class="ss-view"></i><span class="text">'. __('View shopping bag', 'swiftframework').'</span></a>';
 	               		$cart_output .= '<a class="sf-button standard sf-icon-reveal checkout-button" href="'. esc_url( $woocommerce->cart->get_checkout_url() ).'"><i class="ss-creditcard"></i><span class="text">'.__('Proceed to checkout', 'swiftframework').'</span></a>';
 
 	               	}
@@ -810,8 +814,6 @@
 			else
 			    { $wishlist = isset( $_SESSION['yith_wcwl_products'] ) ? $_SESSION['yith_wcwl_products'] : array(); }
 
-			do_action( 'yith_wcwl_before_wishlist_title' );
-
 			$wishlist_title = get_option( 'yith_wcwl_wishlist_title' );
 			if( !empty( $wishlist_title ) ) {
 			$wishlist_output .= '<div class="bag-header">'.$wishlist_title.'</div>';
@@ -837,9 +839,11 @@
 		    			}
 
 		                $product_obj = get_product( $values['prod_id'] );
-
+						
 		                if( $product_obj !== false && $product_obj->exists() ) :
-
+						
+						$product_title = apply_filters( 'woocommerce_in_cartproduct_obj_title', $product_obj->get_title(), $product_obj );	
+						
 		                $wishlist_output .= '<div id="wishlist-'.$values['ID'].'" class="bag-product clearfix">';
 
 		                if ( has_post_thumbnail($product_obj->id) ) {
@@ -847,12 +851,12 @@
 		                	$image = sf_aq_resize( $image_link, 70, 70, true, false);
 
 		                	if ($image) {
-		                		$wishlist_output .= '<figure><a class="bag-product-img" href="'.esc_url( get_permalink( apply_filters( 'woocommerce_in_cart_product', $values['prod_id'] ) ) ).'"><img itemprop="image" src="'.$image[0].'" width="'.$image[1].'" height="'.$image[2].'" /></a></figure>';
+		                		$wishlist_output .= '<figure><a class="bag-product-img" href="'.esc_url( get_permalink( apply_filters( 'woocommerce_in_cart_product', $values['prod_id'] ) ) ).'"><img itemprop="image" src="'.$image[0].'" width="'.$image[1].'" height="'.$image[2].'" alt="'.$product_title.'" /></a></figure>';
 		                	}
 		                }
 
 		                $wishlist_output .= '<div class="bag-product-details">';
-		                $wishlist_output .= '<div class="bag-product-title"><a href="'.esc_url( get_permalink( apply_filters( 'woocommerce_in_cart_product', $values['prod_id'] ) ) ).'">'. apply_filters( 'woocommerce_in_cartproduct_obj_title', $product_obj->get_title(), $product_obj ) .'</a></div>';
+		                $wishlist_output .= '<div class="bag-product-title"><a href="'.esc_url( get_permalink( apply_filters( 'woocommerce_in_cart_product', $values['prod_id'] ) ) ).'">'. $product_title .'</a></div>';
 
 		                if( get_option( 'woocommerce_display_cart_prices_excluding_tax' ) == 'yes' ) {
 		                $wishlist_output .= '<div class="bag-product-price">'.apply_filters( 'woocommerce_cart_item_price_html', woocommerce_price( $product_obj->get_price_excluding_tax() ), $values, '' ).'</div>';

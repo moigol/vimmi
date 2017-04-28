@@ -5,7 +5,7 @@
 	*	Custom In Focus Widget
 	*	------------------------------------------------
 	*	Swift Framework
-	* 	Copyright Swift Ideas 2014 - http://www.swiftideas.net
+	* 	Copyright Swift Ideas 2016 - http://www.swiftideas.net
 	*
 	*/
 	
@@ -14,8 +14,9 @@
 	function init_sf_infocus() { return register_widget('sf_infocus'); }
 	
 	class sf_infocus extends WP_Widget {
-		function sf_infocus() {
-			parent::WP_Widget( 'sf_infocus_widget', $name = 'Swift Framework In Focus' );
+		
+		function __construct() {
+			parent::__construct( 'sf_infocus_widget', $name = 'Swift Framework In Focus' );
 		}
 	
 		function widget( $args, $instance ) {
@@ -59,7 +60,7 @@
 					<?php if ($thumb_video != "") { ?>
 						<?php echo sf_video_embed($thumb_video, 300, 200); ?>
 					<?php } else if ($image) { ?>
-						<img src="<?php echo $image[0]; ?>" width="<?php echo $image[1]; ?>" height="<?php echo $image[2]; ?>" />
+						<img src="<?php echo $image[0]; ?>" width="<?php echo $image[1]; ?>" height="<?php echo $image[2]; ?>" alt="<?php echo $post_title; ?>" />
 						<a href="<?php echo $post_permalink; ?>" class="infocus-image"></a>
 						<figcaption>
 							<div class="thumb-info thumb-info-alt">

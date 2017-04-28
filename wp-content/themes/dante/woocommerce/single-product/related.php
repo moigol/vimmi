@@ -2,32 +2,27 @@
 /**
  * Related Products
  *
+ * This template can be overridden by copying it to yourtheme/woocommerce/single-product/related.php.
+ *
+ * HOWEVER, on occasion WooCommerce will need to update template files and you
+ * (the theme developer) will need to copy the new files to your theme to
+ * maintain compatibility. We try to do this as little as possible, but it does
+ * happen. When this occurs the version of the template file will be bumped and
+ * the readme will list any important changes.
+ *
+ * @see 	    https://docs.woocommerce.com/document/template-structure/
  * @author 		WooThemes
  * @package 	WooCommerce/Templates
- * @version     1.6.4
+ * @version     3.0.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
-global $product, $woocommerce_loop, $sf_carouselID;
+global $woocommerce_loop, $sf_carouselID;
 
-$related = $product->get_related(12);
-
-if ( sizeof( $related ) == 0 ) return;
-
-$args = apply_filters('woocommerce_related_products_args', array(
-	'post_type'				=> 'product',
-	'ignore_sticky_posts'	=> 1,
-	'no_found_rows' 		=> 1,
-	'posts_per_page' 		=> 12,
-	'orderby' 				=> $orderby,
-	'post__in' 				=> $related,
-	'post__not_in'			=> array($product->id)
-) );
-
-$products = new WP_Query( $args );
-
-//$woocommerce_loop['columns'] = $columns;
+//$woocommerce_loop['columns'] 	= $columns;
 $woocommerce_loop['columns'] = 4;
 
 if ($sf_carouselID == "") {
@@ -36,34 +31,95 @@ $sf_carouselID = 1;
 $sf_carouselID++;
 }
 
-if ( $products->have_posts() ) : ?>
+if ( version_compare( WC_VERSION, '2.7', '>=' ) ) {
 
-	<div class="related products product-carousel" data-columns="<?php echo $woocommerce_loop['columns']; ?>">
-
-		<h4 class="lined-heading"><span><?php _e( 'Related Products', 'swiftframework' ); ?></span></h4>
+	if ( $related_products ) : ?>
+		
+		<div class="product-carousel spb_content_element related">
+	
+			<h4 class="lined-heading"><span><?php _e( 'Related Products', 'swiftframework' ); ?></span></h4>
 			
-		<div class="carousel-overflow">
+			<div class="carousel-wrap">
+			
+				<ul class="related products carousel-items" id="carousel-<?php echo esc_attr($sf_carouselID); ?>" data-columns="<?php echo esc_attr($woocommerce_loop['columns']); ?>>">
+			
+					<?php foreach ( $related_products as $related_product ) : ?>
 		
-		<?php woocommerce_product_loop_start(); ?>
-
-			<?php while ( $products->have_posts() ) : $products->the_post(); ?>
-								
-				<?php woocommerce_get_template_part( 'content', 'product-4col' ); ?>
-				
-			<?php endwhile; // end of the loop. ?>
-				
-		<?php woocommerce_product_loop_end(); ?>
+						<?php
+						 	$post_object = get_post( $related_product->get_id() );
 		
+							setup_postdata( $GLOBALS['post'] =& $post_object );
+		
+							wc_get_template_part( 'content', 'product' ); ?>
+		
+					<?php endforeach; ?>
+			
+				</ul>
+		
+				<a href="#" class="carousel-prev"><i class="fa-chevron-left"></i></a><a href="#" class="carousel-next"><i class="fa-chevron-right"></i></a>
+				
+			</div>
+	
 		</div>
+	
+	<?php endif;
+	
+	global $sf_include_carousel, $sf_include_isotope;
+	$sf_include_carousel = true;
+	$sf_include_isotope = true;
+	
+	wp_reset_postdata();
+	
+} else {
+
+	global $product;
+	
+	$related = $product->get_related(12);
+	
+	if ( sizeof( $related ) == 0 ) return;
+	
+	$args = apply_filters('woocommerce_related_products_args', array(
+		'post_type'				=> 'product',
+		'ignore_sticky_posts'	=> 1,
+		'no_found_rows' 		=> 1,
+		'posts_per_page' 		=> 12,
+		'orderby' 				=> $orderby,
+		'post__in' 				=> $related,
+		'post__not_in'			=> array($product->id)
+	) );
+	
+	$products = new WP_Query( $args );
+	
+	if ( $products->have_posts() ) : ?>
+	
+		<div class="product-carousel spb_content_element">
+	
+			<h4 class="lined-heading"><span><?php _e( 'Related Products', 'swiftframework' ); ?></span></h4>
+			
+			<div class="carousel-wrap">
+			
+				<ul class="related products carousel-items" id="carousel-<?php echo esc_attr($sf_carouselID); ?>" data-columns="<?php echo esc_attr($woocommerce_loop['columns']); ?>>">
+			
+					<?php while ( $products->have_posts() ) : $products->the_post(); ?>
 		
-		<a href="#" class="prev"><i class="ss-navigateleft"></i></a><a href="#" class="next"><i class="ss-navigateright"></i></a>
+						<?php wc_get_template_part( 'content', 'product' ); ?>
 		
-	</div>
+					<?php endwhile; // end of the loop. ?>
+			
+				</ul>
+		
+				<a href="#" class="carousel-prev"><i class="fa-chevron-left"></i></a><a href="#" class="carousel-next"><i class="fa-chevron-right"></i></a>
+				
+			</div>
+	
+		</div>
+	
+	<?php endif;
+	
+	global $sf_include_carousel, $sf_include_isotope;
+	$sf_include_carousel = true;
+	$sf_include_isotope = true;
+	
+	wp_reset_postdata();
 
-<?php endif;
-
-global $sf_include_carousel, $sf_include_isotope;
-$sf_include_carousel = true;
-$sf_include_isotope = true;
-
-wp_reset_postdata();
+}

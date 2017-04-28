@@ -5,7 +5,7 @@
 	*	Swift Page Builder - Media Shortcodes Config
 	*	------------------------------------------------
 	*	Swift Framework
-	* 	Copyright Swift Ideas 2014 - http://www.swiftideas.net
+	* 	Copyright Swift Ideas 2016 - http://www.swiftideas.net
 	*
 	*/
 
@@ -156,7 +156,7 @@
 		        $output .= '</div></figcaption>';
 	        } else if ($lightbox == "yes") {
 		        $output .= $img['thumbnail'];
-		        $output .= '<a class="view" href="'.$img_url[0].'" rel="image-gallery"></a>';
+		        $output .= '<a class="lightbox" data-rel="ilightbox[image-gallery]" href="'.$img_url[0].'"></a>';
 		        $output .= '<figcaption>';
 		        if ($caption != "") {
 			        $output .= '<div class="thumb-info">';
@@ -350,7 +350,7 @@
 	        $output .= "\n\t".'</div> '.$this->endBlockComment($width);
 
 			if ($fullscreen == "yes") {
-	        $output = $this->startRow($el_position, '', true) . $output . $this->endRow($el_position, '', true);
+	        $output = $this->startRow($el_position, '', true, "full-width") . $output . $this->endRow($el_position, '', true);
 	        } else {
 	        $output = $this->startRow($el_position) . $output . $this->endRow($el_position);
 	        }

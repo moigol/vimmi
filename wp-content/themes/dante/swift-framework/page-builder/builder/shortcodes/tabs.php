@@ -5,7 +5,7 @@
 	*	Swift Page Builder - Tabs Shortcode
 	*	------------------------------------------------
 	*	Swift Framework
-	* 	Copyright Swift Ideas 2014 - http://www.swiftideas.net
+	* 	Copyright Swift Ideas 2016 - http://www.swiftideas.net
 	*
 	*/
 	
@@ -14,7 +14,9 @@
 	        $title = '';
 	        
 			extract(shortcode_atts(array(
-	            'title' => __("Tab", "swift-framework-admin"), 'id' => ''
+	            'title' => __("Tab", "swift-framework-admin"), 
+	            'id' => '',
+	            'icon'  => ''
 	        ), $atts));
 			
 	        $output = '';
@@ -32,7 +34,7 @@
 		
 		public function contentAdmin($atts, $content) {
 	        $title = '';
-	        $defaults = array( 'title' => __('Tab', "swift-framework-admin") );
+	        $defaults = array( 'title' => __('Tab', "swift-framework-admin"), 'icon' => ''  );
 	        extract( shortcode_atts( $defaults, $atts ) );
 	
 	        return '<div id="tab-'. sanitize_title( $title ) .'" class="row-fluid spb_column_container spb_sortable_container not-column-inherit">'. do_shortcode($content) . SwiftPageBuilder::getInstance()->getLayout()->getContainerHelper() . '</div>';
@@ -66,14 +68,28 @@
 	        extract(shortcode_atts(
 	            $shortcode_attributes
 	            , $atts));
-	
-	        // Extract tab titles
-	        preg_match_all( '/spb_tab title="([^\"]+)"/i', $content, $matches, PREG_OFFSET_CAPTURE );
-	        $tab_titles = array();
-	        if ( isset($matches[1]) ) { $tab_titles = $matches[1]; }
-			$tab_ids = array();
-			preg_match_all( '/spb_tab title="([^\"]+)" id="([^\"]+)"/i', $content, $matches, PREG_OFFSET_CAPTURE );
-	        if ( isset($matches[2]) ) { $tab_ids = $matches[2]; }
+
+
+            // Extract tab titles
+            preg_match_all( '/spb_tab title="([^\"]+)"/i', $content, $matches, PREG_OFFSET_CAPTURE );
+            $tab_titles = array();
+            $tab_icons  = array();
+            $tab_ids    = array();
+
+            if ( isset( $matches[1] ) ) {
+                $tab_titles = $matches[1];
+            }
+
+            preg_match_all( '/spb_tab title="([^\"]+)" icon="([^\"]+)"/i', $content, $matches, PREG_OFFSET_CAPTURE );
+            if ( isset( $matches[2] ) ) {
+                $tab_icons = $matches[2];
+            }
+
+            preg_match_all( '/" id="([^"]+)"/', $content, $matches, PREG_OFFSET_CAPTURE );
+            if ( isset( $matches[1] ) ) {
+                $tab_ids = $matches[1];
+            }
+
 			
 	        $output = '';
 			$tab_id = '';
@@ -85,13 +101,20 @@
 					
 	            $tmp .= '<ul class="clearfix">';
 	            foreach ( $tab_titles as $tab ) {
-					if(isset($tab_ids[$tab_index][0])){
-						
-						$tab_id = $tab_ids[$tab_index][0];
-						$tmp .= '<li id="'.$tab_id.'"><a href="#tab-'. sanitize_title( $tab[0] ) .'"><span>' . $tab[0] . '</span></a><a class="edit_tab"></a><a class="delete_tab"></a></li>';
-					}else{
-						$tmp .= '<li><a href="#tab-'. sanitize_title( $tab[0] ) .'"><span>' . $tab[0] . '</span></a><a class="edit_tab"></a><a class="delete_tab"></a></li>';	
-					}
+
+	            	if ( isset( $tab_icons[ $tab_index ][0] ) ) {
+                        $icon_text = $tab_icons[ $tab_index ][0];
+                    } else {
+                        $icon_text = '';
+                    }
+
+                    $tab_id = '';  
+
+                    if ( isset( $tab_ids[ $tab_index ][0] ) ) {
+                        $tab_id = $tab_ids[ $tab_index ][0];
+                    }
+
+                    $tmp .= '<li id="' . $tab_id . '" data-title-icon="' . $icon_text . '"><a href="#tab-' . sanitize_title( $tab[0] ) . '"><span>' . $tab[0] . '</span></a><a class="delete_tab"><span class="icon-delete"></span></a><a class="edit_tab"><span class="icon-edit"></span></a></li>';
 		
 					$tab_index++;
 	            }
@@ -104,7 +127,7 @@
 	        $iner = '';
 	        foreach ($this->settings['params'] as $param) {
 	            $custom_markup = '';
-	            $param_value = isset($$param['param_name']) ? $$param['param_name'] : null;
+	            $param_value = isset(${$param['param_name']}) ? ${$param['param_name']} : null;
 	
 	            if ( is_array($param_value)) {
 	                // Get first element from the array
@@ -148,37 +171,58 @@
 	        $element = 'spb_tabs';
 	        if ( 'spb_tour' == $this->shortcode) $element = 'spb_tour';
 	
-	        $tab_titles = array();
-	        $tab_ids = array();
-			
-			// Extract tab titles
-	        preg_match_all( '/spb_tab title="([^\"]+)"/i', $content, $matches, PREG_OFFSET_CAPTURE );
-	        if ( isset($matches[1]) ) { $tab_titles = $matches[1]; }
-			
-			preg_match_all( '/spb_tab title="([^\"]+)" id="([^\"]+)"/i', $content, $matches, PREG_OFFSET_CAPTURE );
-	        if ( isset($matches[2]) ) { $tab_ids = $matches[2]; }
-			
-	        $tabs_nav = '';
-	        $tab_count = 0;
 	        
+
+  			$tab_titles = array();
+            $tab_icons  = array();
+            $tab_ids    = array();
+
+            // Extract tab titles
+            preg_match_all( '/spb_tab title="([^\"]+)"/i', $content, $matches, PREG_OFFSET_CAPTURE );
+            if ( isset( $matches[1] ) ) {
+                $tab_titles = $matches[1];
+            }
+
+            preg_match_all( '/spb_tab title="([^\"]+)" icon="([^\"]+)"/i', $content, $matches, PREG_OFFSET_CAPTURE );
+            if ( isset( $matches[2] ) ) {
+                $tab_icons = $matches[2];
+            }
+
+            preg_match_all( '/" id="([^"]+)"/', $content, $matches, PREG_OFFSET_CAPTURE );
+            if ( isset( $matches[1] ) ) {
+                $tab_ids = $matches[1];
+            }
+
+            $tabs_nav  = '';
+            $tab_count = 0;
+            
 	        $tabs_nav .= '<ul class="nav nav-tabs">';
-	        foreach ( $tab_titles as $tab ) {
-				
-				
+	       
+            foreach ( $tab_titles as $tab ) {
+
 				if(isset($tab_ids[$tab_count][0])){
-						$tab_id = preg_replace('/\s+/', '-', $tab_ids[$tab_count][0]);
+					$tab_id = preg_replace('/\s+/', '-', $tab_ids[$tab_count][0]);
 				}
 				else{
-						$tab_id = preg_replace("#[[:punct:]]#", "", (strtolower(str_replace(' ', '-', $tab[0]))));
+					$tab_id = preg_replace("#[[:punct:]]#", "", (strtolower(str_replace(' ', '-', $tab[0]))));
 				}
-				
-	        	if ($tab_count == 0) {
-					$tabs_nav .= '<li class="active"><a href="#'. $tab_id.'" data-toggle="tab">' . $tab[0] . '</a></li>';
-	        	} else {
-	            	$tabs_nav .= '<li><a href="#'.  $tab_id .'" data-toggle="tab">' . $tab[0] . '</a></li>';
-	        	}
-	        	$tab_count++;
-	        }
+
+                $tab_id = sanitize_title( $tab_id );
+
+                if ( isset( $tab_icons[ $tab_count ][0] ) ) {
+                    $icon_text = '<i class="' . $tab_icons[ $tab_count ][0] . '"></i>';
+                } else {
+                    $icon_text = '';
+                }
+
+                if ( $tab_count == 0 ) {
+                    $tabs_nav .= '<li class="active"><a href="#' . preg_replace( "/[^A-Za-z0-9-]/i", "", ( strtolower( str_replace( ' ', '-', $tab_id ) ) ) ) . '" data-toggle="tab"><span>' . $icon_text . $tab[0] . '</span></a></li>';      
+                } else {
+                    $tabs_nav .= '<li><a href="#' . preg_replace( "/[^A-Za-z0-9-]/i", "", ( strtolower( str_replace( ' ', '-', $tab_id ) ) ) ) . '" data-toggle="tab"><span>' . $icon_text . $tab[0] . '</span></a></li>';                    
+                }
+
+                $tab_count ++;
+            }
 	        $tabs_nav .= '</ul>'."\n";
 	
 	        $output .= "\n\t".'<div class="'.$element.' spb_content_element '.$width.$el_class.'" data-interval="'.$interval.'">';

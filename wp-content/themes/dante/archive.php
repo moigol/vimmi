@@ -4,10 +4,9 @@
 
 	$options = get_option('sf_dante_options');
 	$page_layout = $options['page_layout'];
-	$default_page_heading_bg_alt = $options['default_page_heading_bg_alt'];
 	$sidebar_config = $options['archive_sidebar_config'];
-	$left_sidebar = $options['archive_sidebar_left'];
-	$right_sidebar = $options['archive_sidebar_right'];
+	$left_sidebar = strtolower($options['archive_sidebar_left']);
+	$right_sidebar = strtolower($options['archive_sidebar_right']);
 	$blog_type = $options['archive_display_type'];
 	$sidebar_width = $options['sidebar_width'];
 	
@@ -44,7 +43,7 @@
 		$item_class = "col-sm-12";
 	} else if ($blog_type == "masonry") {
 		if ($sidebar_config == "both-sidebars") {
-		$item_class = "col-sm-3";
+		$item_class = "col-sm-12";
 		} else {
 		$item_class = "col-sm-4";
 		}
@@ -76,34 +75,6 @@
 	sf_set_sidebar_global($sidebar_config);
 
 ?>
-<div class="container">
-	<div class="row">
-		<div class="page-heading col-sm-12 clearfix alt-bg <?php echo $default_page_heading_bg_alt; ?>">
-			<div class="heading-text">
-				<?php /* If this is a tag archive */ if( is_tag() ) { ?>
-				<h1><?php _e("Posts tagged with", "swiftframework"); ?> &#8216;<?php single_tag_title(); ?>&#8217;</h1>
-				<?php /* If this is a daily archive */ } elseif (is_day()) { ?>
-				<h1><?php _e("Archive for", "swiftframework"); ?> <?php the_time('F jS, Y'); ?></h1>
-				<?php /* If this is a monthly archive */ } elseif (is_month()) { ?>
-				<h1><?php _e("Archive for", "swiftframework"); ?> <?php the_time('F, Y'); ?></h1>
-				<?php /* If this is a yearly archive */ } elseif (is_year()) { ?>
-				<h1><?php _e("Archive for", "swiftframework"); ?> <?php the_time('Y'); ?></h1>
-				<?php /* If this is an author archive */ } elseif (is_author()) { ?>
-				<?php $author = get_userdata( get_query_var('author') );?>
-				<h1><?php _e("Author archive for", "swiftframework"); ?> <?php echo $author->display_name;?></h1>
-				<?php /* If this is a paged archive */ } elseif (isset($_GET['paged']) && !empty($_GET['paged'])) { ?>
-				<h1><?php _e("Blog Archives", "swiftframework"); ?></h1>
-				<?php } else { ?>
-				<h1><?php wp_title(''); ?></h1>
-				<?php } ?>
-			</div>
-			<?php 
-				// BREADCRUMBS
-				echo sf_breadcrumbs();
-			?>
-		</div>
-	</div>
-</div>
 
 <?php if ($blog_type != "masonry-fw" || $page_layout == "boxed") { ?>
 <div class="container">

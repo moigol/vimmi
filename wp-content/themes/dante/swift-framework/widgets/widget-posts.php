@@ -5,7 +5,7 @@
 	*	Custom Posts Widget
 	*	------------------------------------------------
 	*	Swift Framework
-	* 	Copyright Swift Ideas 2014 - http://www.swiftideas.net
+	* 	Copyright Swift Ideas 2016 - http://www.swiftideas.net
 	*
 	*/
 
@@ -14,8 +14,9 @@
 	function init_sf_recent_posts() { return register_widget('sf_recent_posts'); }
 
 	class sf_recent_posts extends WP_Widget {
-		function sf_recent_posts() {
-			parent::WP_Widget( 'sf_recent_custom_posts', $name = 'Swift Framework Recent Posts' );
+	
+		function __construct() {
+			parent::__construct( 'sf_recent_custom_posts', $name = 'Swift Framework Recent Posts' );
 		}
 
 		function widget( $args, $instance ) {
@@ -31,7 +32,6 @@
 			if ($category == "all") {$category = '';}
 			$category_slug = str_replace('_', '-', $category);
 			$count = 0;
-			$before_widget = str_replace('class="', 'class="widget_recent_entries ', $before_widget);
 			echo $before_widget;
 
 		    if ( $title ) echo $before_title . $title . $after_title;
@@ -50,9 +50,9 @@
 			if (isset($options['remove_dates']) && $options['remove_dates'] == 1) {
 			$remove_dates = true;
 			}
-			$developer = false;
+
 			if( $recent_posts->have_posts() ) :
-				if($developer) {
+
 			?>
 
 			<ul class="recent-posts-list">
@@ -72,11 +72,12 @@
 				$thumb_image = get_post_thumbnail_id();
 				$thumb_img_url = wp_get_attachment_url( $thumb_image, 'widget-image' );
 				$image = sf_aq_resize( $thumb_img_url, 94, 75, true, false);
+				$image_alt = sf_get_post_meta($thumb_image, '_wp_attachment_image_alt', true);
 				?>
 				<li>
 					<a href="<?php echo $post_permalink; ?>" class="recent-post-image">
 						<?php if ($image) { ?>
-						<img src="<?php echo $image[0]; ?>" width="<?php echo $image[1]; ?>" height="<?php echo $image[2]; ?>" />
+						<img src="<?php echo $image[0]; ?>" width="<?php echo $image[1]; ?>" height="<?php echo $image[2]; ?>" alt="<?php echo $image_alt; ?>" />
 						<?php } ?>
 					</a>
 					<div class="recent-post-details">
@@ -104,35 +105,7 @@
 					endwhile;
 				?>
 			</ul>
-			<?php } else { ?>
-				<ul>
 
-				<?php while( $recent_posts->have_posts()) : $recent_posts->the_post();
-
-				if ($count == $number) {
-					break;
-				}
-
-				$post_title = get_the_title();
-				$post_author = get_the_author_link();
-				$post_date = get_the_date();
-				$post_categories = get_the_category_list();
-				$post_comments = get_comments_number();
-				$post_permalink = get_permalink();
-				$thumb_image = get_post_thumbnail_id();
-				$thumb_img_url = wp_get_attachment_url( $thumb_image, 'widget-image' );
-				$image = sf_aq_resize( $thumb_img_url, 94, 75, true, false);
-				?>
-				<li>
-					<a href="<?php echo $post_permalink; ?>" title="<?php echo $post_title; ?>"><?php echo $post_title; ?></a>
-				</li>
-
-				<?php
-					$count ++;
-					endwhile;
-				?>
-			</ul>
-			<?php } ?>
 			<?php wp_reset_query(); endif; ?>
 
 			<?php

@@ -5,7 +5,7 @@
 	*	Swift Framework Functions
 	*	------------------------------------------------
 	*	Swift Framework v2.0
-	* 	Copyright Swift Ideas 2014 - http://www.swiftideas.net
+	* 	Copyright Swift Ideas 2016 - http://www.swiftideas.net
 	*
 	*	sf_content_filter()
 	*	sf_get_tweets()
@@ -27,7 +27,7 @@
 	if (!function_exists('sf_content_filter')) {
 		function sf_content_filter($content) {
 			// array of custom shortcodes requiring the fix 
-			$block = join("|",array("alert","sf_button","icon","sf_iconbox","sf_imagebanner","social","sf_social_share","highlight","decorative_ampersand","blockquote1","blockquote2","blockquote3","pullquote","dropcap1","dropcap2","dropcap3","dropcap4","one_half","one_half_last","one_third","one_third_last","two_third","two_third_last","one_fourth","one_fourth_last","three_fourth","three_fourth_last","one_half","one_half_last","progress_bar","chart","sf_count","sf_countdown","sf_tooltip","sf_modal","sf_fullscreenvideo","sf_visibility","table","trow","thcol","tcol","pricing_table","pt_column","pt_package","pt_details","pt_button","pt_price","labelled_pricing_table","lpt_label_column","lpt_row_label","lpt_column","lpt_price","lpt_package","lpt_row_label","lpt_row","lpt_button","list","list_item","hr","accordion","panel","tabs","tab","sf_supersearch","gallery","spb_accordion","spb_accordion_tab","blog","boxed_content","clients","clients_featured","codesnippet","divider","faqs","sf_gallery","googlechart","spb_gmaps","impact_text","jobs","jobs_overview","latest_tweets","spb_message","spb_parallax","portfolio","portfolio_carousel","portfolio_showcase","posts_carousel","spb_products","spb_products_mini","spb_raw_html","spb_raw_js","recent_posts","spb_slider","sitemap","search_widget","supersearch","spb_tabs","spb_tab","spb_text_block","team_carousel","team","testimonial","testimonial_carousel","testimonial_slider","fullwidth_text","spb_toggle","spb_tour","tweets_slider","spb_video","blank_spacer","spb_single_image"));
+			$block = join("|",array("alert","sf_button","icon","sf_iconbox","sf_imagebanner","social","sf_social_share","highlight","decorative_ampersand","blockquote1","blockquote2","blockquote3","pullquote","dropcap1","dropcap2","dropcap3","dropcap4","one_half","one_half_last","one_third","one_third_last","two_third","two_third_last","one_fourth","one_fourth_last","three_fourth","three_fourth_last","one_half","one_half_last","progress_bar","chart","sf_count","sf_countdown","sf_tooltip","sf_modal","sf_fullscreenvideo","sf_visibility","table","trow","thcol","tcol","pricing_table","pt_column","pt_package","pt_details","pt_button","pt_price","labelled_pricing_table","lpt_label_column","lpt_row_label","lpt_column","lpt_price","lpt_package","lpt_row_label","lpt_row","lpt_button","list","list_item","hr","accordion","panel","tabs","tab","sf_supersearch","gallery","spb_accordion","spb_accordion_tab","blog","boxed_content","clients","clients_featured","codesnippet","divider","faqs","sf_gallery","googlechart","spb_gmaps","impact_text","jobs","jobs_overview","latest_tweets","spb_message","spb_parallax","portfolio","portfolio_carousel","portfolio_showcase","posts_carousel","spb_products","spb_products_mini","spb_raw_html","spb_raw_js","recent_posts","spb_slider","sitemap","search_widget","supersearch","spb_tabs","spb_tab","spb_text_block","team_carousel","team","testimonial","testimonial_carousel","testimonial_slider","fullwidth_text","spb_toggle","spb_tour","tweets_slider","spb_video","blank_spacer","spb_single_image", "spb_row", "spb_icon_box"));
 			// opening tag
 			$rep = preg_replace("/(<p>)?\[($block)(\s[^\]]+)?\](<\/p>|<br \/>)?/","[$2$3]",$content);
 			// closing tag
@@ -475,7 +475,7 @@
 			<style type="text/css" media="screen">
 			<?php
 				echo "\n".'/*========== Asset Background Styles ==========*/'."\n";
-				echo '.alt-bg {border-color: '.$section_divide_color.';}'. "\n";
+				echo '.asset-bg {border-color: '.$section_divide_color.';}'. "\n";
 				echo '.alt-one {background-color: '.$alt_one_bg_color.';}'. "\n";
 				if (isset($options['alt_one_bg_image']) && $alt_one_bg_image != "") {
 					if ($alt_one_bg_image_size == "cover") {

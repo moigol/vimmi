@@ -6,7 +6,7 @@
 	 *
 	 * @author 		WooThemes
 	 * @package 	WooCommerce/Templates
-	 * @version     2.1.0
+	 * @version     3.0.0
 	 */
 	
 	if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -14,26 +14,7 @@
 	global $woocommerce, $product, $woocommerce_loop, $sf_catalog_mode, $sf_sidebar_config;
 	
 	$options = get_option('sf_dante_options');
-	
-	// Store loop count we're currently on
-	if ( empty( $woocommerce_loop['loop'] ) )
-		$woocommerce_loop['loop'] = 0;
-	
-	// Ensure visibility
-	if ( ! $product || ! $product->is_visible() )
-		return;
-	
-	// Increase loop count
-	$woocommerce_loop['loop']++;
-	
-	// Extra post classes
-	$classes = array();
-	if ( 0 == ( $woocommerce_loop['loop'] - 1 ) % $woocommerce_loop['columns'] || 1 == $woocommerce_loop['columns'] )
-		$classes[] = 'first';
-	if ( 0 == $woocommerce_loop['loop'] % $woocommerce_loop['columns'] )
-		$classes[] = 'last';
-	
-	$options = get_option('sf_dante_options');
+		
 	$product_overlay_transition = $options['product_overlay_transition'];
 	$overlay_transition_type = "";
 	
@@ -44,6 +25,26 @@
 	if (is_singular('portfolio')) {
 	$woocommerce_loop['columns'] = apply_filters( 'loop_shop_columns', 4 );
 	}
+	
+	$classes = array();
+		
+	if ( version_compare( WOOCOMMERCE_VERSION, "2.6.0" ) < 0 ) {
+		
+		// Store loop count we're currently on
+		if ( empty( $woocommerce_loop['loop'] ) ) {
+			$woocommerce_loop['loop'] = 0;
+		}
+			
+		// Increase loop count
+		$woocommerce_loop['loop']++;
+		
+		// Extra post classes
+		if ( 0 == ( $woocommerce_loop['loop'] - 1 ) % $woocommerce_loop['columns'] || 1 == $woocommerce_loop['columns'] )
+			$classes[] = 'first';
+		if ( 0 == $woocommerce_loop['loop'] % $woocommerce_loop['columns'] )
+			$classes[] = 'last';
+	}
+	
 ?>
 <li <?php post_class( $classes ); ?>>
 
@@ -82,7 +83,7 @@
 		
 			} else if ($product->is_on_sale()) {
 				
-				echo apply_filters('woocommerce_sale_flash', '<span class="onsale">'.__( 'Sale!', 'woocommerce' ).'</span>', $post, $product);				
+				echo apply_filters('woocommerce_sale_flash', '<span class="onsale">'.__( 'Sale!', 'swiftframework' ).'</span>', $post, $product);				
 			
 			} else if ( ( time() - ( 60 * 60 * 24 * $newness ) ) < $postdatestamp ) {
 				
@@ -106,7 +107,7 @@
 				
 				if ( version_compare( WOOCOMMERCE_VERSION, "2.0.0" ) >= 0 ) {
 				
-					$attachment_ids = $product->get_gallery_attachment_ids();
+					$attachment_ids = method_exists( $product, 'get_gallery_image_ids' ) ? $product->get_gallery_image_ids() : $product->get_gallery_attachment_ids;					
 					
 					$img_count = 0;
 					
@@ -190,7 +191,11 @@
 		<h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
 		<?php
 			$size = sizeof( get_the_terms( $post->ID, 'product_cat' ) );
-			echo $product->get_categories( ', ', '<span class="posted_in">' . _n( '', '', $size, 'woocommerce' ) . ' ', '</span>' );
+			if ( function_exists('wc_get_product_category_list') ) {
+				echo wc_get_product_category_list( ', ', '<span class="posted_in">', '</span>' );
+			} else {
+				echo $product->get_categories( ', ', '<span class="posted_in">', '</span>' );
+			}
 		?>
 	</div>
 	

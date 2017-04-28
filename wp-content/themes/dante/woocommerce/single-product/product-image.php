@@ -2,91 +2,157 @@
 /**
  * Single Product Image
  *
- * @author 		WooThemes
- * @package 	WooCommerce/Templates
- * @version     2.0.14
+ * This template can be overridden by copying it to yourtheme/woocommerce/single-product/product-image.php.
+ *
+ * HOWEVER, on occasion WooCommerce will need to update template files and you
+ * (the theme developer) will need to copy the new files to your theme to
+ * maintain compatibility. We try to do this as little as possible, but it does
+ * happen. When this occurs the version of the template file will be bumped and
+ * the readme will list any important changes.
+ *
+ * @see     https://docs.woocommerce.com/document/template-structure/
+ * @author  WooThemes
+ * @package WooCommerce/Templates
+ * @version 3.0.2
  */
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
-global $post, $woocommerce, $product;
+if ( version_compare( WC_VERSION, '2.7', '>=' ) ) {
 
-$options = get_option('sf_dante_options');
-
-$attachment_ids = array();
-
-?>
-<div class="images">
+	global $post, $product;
+	$columns           = apply_filters( 'woocommerce_product_thumbnails_columns', 4 );
+	$post_thumbnail_id = get_post_thumbnail_id( $post->ID );
+	$full_size_image   = wp_get_attachment_image_src( $post_thumbnail_id, 'full' );
+	$image_title     = get_post_field( 'post_excerpt', $post_thumbnail_id );
 	
-	<?php
-		
-		$newdays = 7;
-		
-		if (isset($options['new_badge'])) {
-			$newdays = $options['new_badge'];
-		}
-		
-		$postdate 		= get_the_time( 'Y-m-d' );			// Post date
-		$postdatestamp 	= strtotime( $postdate );			// Timestamped post date
-		$newness 		= $newdays; 	// Newness in days
-	
-		if (sf_is_out_of_stock()) {
-				
-			echo '<span class="out-of-stock-badge">' . __( 'Out of Stock', 'swiftframework' ) . '</span>';
-		
-		} else if ($product->is_on_sale()) {
-				
-			echo apply_filters('woocommerce_sale_flash', '<span class="onsale">'.__( 'Sale!', 'woocommerce' ).'</span>', $post, $product);
-				
-		} else if ( ( time() - ( 60 * 60 * 24 * $newness ) ) < $postdatestamp ) {
-			
-			// If the product was published within the newness time frame display the new badge
-			echo '<span class="wc-new-badge">' . __( 'New', 'swiftframework' ) . '</span>';
-		
-		} else if (!$product->get_price()) {
-			
-			echo '<span class="free-badge">' . __( 'Free', 'swiftframework' ) . '</span>';
-			
-		}
+	$placeholder       = has_post_thumbnail() ? 'with-images' : 'without-images';
+	$wrapper_classes   = apply_filters( 'woocommerce_single_product_image_gallery_classes', array(
+		'woocommerce-product-gallery',
+		'woocommerce-product-gallery--' . $placeholder,
+		'woocommerce-product-gallery--columns-' . absint( $columns ),
+		'images',
+	) );
 	?>
-	
-	<div id="product-img-slider" class="flexslider">
-		<ul class="slides images">
+	<div class="<?php echo esc_attr( implode( ' ', array_map( 'sanitize_html_class', $wrapper_classes ) ) ); ?>" data-columns="<?php echo esc_attr( $columns ); ?>">
+		<figure class="woocommerce-product-gallery__wrapper">
 			<?php
-				if ( has_post_thumbnail() ) {
+			$attributes = array(
+				'title'             => $image_title,
+				'data-large_image'        => $full_size_image[0],
+				'data-large_image_width'  => $full_size_image[1],
+				'data-large_image_height' => $full_size_image[2],
+			);
+	
+			if ( has_post_thumbnail() ) {
+				$html  = '<div data-thumb="' . get_the_post_thumbnail_url( $post->ID, 'shop_thumbnail' ) . '" class="woocommerce-product-gallery__image"><a href="' . esc_url( $full_size_image[0] ) . '">';
+				$html .= get_the_post_thumbnail( $post->ID, 'shop_single', $attributes );
+				$html .= '</a></div>';
+			} else {
+				$html  = '<div class="woocommerce-product-gallery__image--placeholder">';
+				$html .= sprintf( '<img src="%s" alt="%s" class="wp-post-image" />', esc_url( wc_placeholder_img_src() ), esc_html__( 'Awaiting product image', 'swiftframework' ) );
+				$html .= '</div>';
+			}
+	
+			echo apply_filters( 'woocommerce_single_product_image_thumbnail_html', $html, get_post_thumbnail_id( $post->ID ) );
+	
+			do_action( 'woocommerce_product_thumbnails' );
+			?>
+		</figure>
+	</div>
+
+<?php } else {
+
+	global $post, $woocommerce, $product;
+	
+	$options = get_option('sf_dante_options');
+	
+	$attachment_ids = array();
+	
+	?>
+	<div class="images">
 		
-					$image_object		= get_the_post_thumbnail( $post->ID, 'full' );
-					$image_title 		= esc_attr( get_the_title( get_post_thumbnail_id() ) );
-					$image_alt 			= esc_attr( sf_get_post_meta(get_post_thumbnail_id(), '_wp_attachment_image_alt', true) );
-					$image_link  		= wp_get_attachment_url( get_post_thumbnail_id() );
+		<?php
+			
+			$newdays = 7;
+			
+			if (isset($options['new_badge'])) {
+				$newdays = $options['new_badge'];
+			}
+			
+			$postdate 		= get_the_time( 'Y-m-d' );			// Post date
+			$postdatestamp 	= strtotime( $postdate );			// Timestamped post date
+			$newness 		= $newdays; 	// Newness in days
+		
+			if (sf_is_out_of_stock()) {
 					
-					$image = sf_aq_resize( $image_link, 562, NULL, true, false);
+				echo '<span class="out-of-stock-badge">' . __( 'Out of Stock', 'swiftframework' ) . '</span>';
+			
+			} else if ($product->is_on_sale()) {
 					
-					if ($image) {
+				echo apply_filters('woocommerce_sale_flash', '<span class="onsale">'.__( 'Sale!', 'swiftframework' ).'</span>', $post, $product);
 					
-					$image_html = '<img class="product-slider-image" data-zoom-image="'.$image_link.'" src="'.$image[0].'" width="'.$image[1].'" height="'.$image[2].'" alt="'.$image_alt.'" title="'.$image_title.'" />';
-					
-					echo apply_filters( 'woocommerce_single_product_image_html', sprintf( '<li itemprop="image">%s<a href="%s" itemprop="image" class="woocommerce-main-image zoom" title="%s" alt="%s" data-rel="prettyPhoto[product-gallery]"><i class="ss-expand"></i></a></li>', $image_html, $image_link, $image_title, $image_alt ), $post->ID );	
-					
-					} else {
-					
-					$image = get_the_post_thumbnail( $post->ID, apply_filters( 'single_product_large_thumbnail_size', 'shop_single' ), array(
-						'title' => $image_title,
-						'class' => 'product-slider-image'
-						) );
-					
-					
-					echo apply_filters( 'woocommerce_single_product_image_html', sprintf( '<li itemprop="image"><a href="%s" itemprop="image" class="woocommerce-main-image zoom" title="%s" data-rel="prettyPhoto' . $gallery . '">%s</a></li>', $image_link, $image_title, $image ), $post->ID );
-					
-					
-					}
-					
-				}
-									
-				$loop = 0;
-				$columns = apply_filters( 'woocommerce_product_thumbnails_columns', 3 );
+			} else if ( ( time() - ( 60 * 60 * 24 * $newness ) ) < $postdatestamp ) {
 				
-				if ( version_compare( WOOCOMMERCE_VERSION, "2.0.0" ) >= 0 ) {
+				// If the product was published within the newness time frame display the new badge
+				echo '<span class="wc-new-badge">' . __( 'New', 'swiftframework' ) . '</span>';
+			
+			} else if (!$product->get_price()) {
+				
+				echo '<span class="free-badge">' . __( 'Free', 'swiftframework' ) . '</span>';
+				
+			}
+		?>
+		
+		<div id="product-img-slider" class="flexslider">
+			<ul class="slides images">
+				<?php
+					if ( has_post_thumbnail() ) {
+			
+						$image_id			= get_post_thumbnail_id();
+						$image_object		= get_the_post_thumbnail( $post->ID, 'full' );
+						$image_meta 		= sf_get_attachment_meta( $image_id );
+	
+						$caption_html = $image_caption = $image_alt = $image_title = "";
+						if ( isset($image_meta) ) {
+							$image_caption 		= esc_attr( $image_meta['caption'] );
+							$image_title 		= esc_attr( $image_meta['title'] );
+							$image_alt 			= esc_attr( $image_meta['alt'] );
+						}
+											
+						$image_link  		= wp_get_attachment_url( get_post_thumbnail_id() );
+						
+						$image = sf_aq_resize( $image_link, 562, NULL, true, false);
+						
+						if ( $image_caption != "" ) {
+							$caption_html = '<div class="img-caption">' . $image_caption . '</div>';
+						}
+						
+						if ($image) {
+						
+						$image_html = '<img class="product-slider-image" data-zoom-image="'.$image_link.'" src="'.$image[0].'" width="'.$image[1].'" height="'.$image[2].'" alt="'.$image_alt.'" title="'.$image_title.'" />';
+						
+						echo apply_filters( 'woocommerce_single_product_image_html', sprintf( '<li itemprop="image">%s%s<a href="%s" itemprop="image" class="woocommerce-main-image zoom lightbox" title="%s" alt="%s" data-rel="ilightbox[product]" data-caption="%s"><i class="ss-expand"></i></a></li>', $image_html, $caption_html, esc_url($image_link), esc_attr($image_title), esc_attr($image_alt), esc_attr($image_caption) ), $post->ID );	
+						
+						} else {
+						
+						$image = get_the_post_thumbnail( $post->ID, apply_filters( 'single_product_large_thumbnail_size', 'shop_single' ), array(
+							'title' => $image_title,
+							'class' => 'product-slider-image'
+							) );
+						
+						
+						echo apply_filters( 'woocommerce_single_product_image_html', sprintf( '<li itemprop="image"><a href="%s" itemprop="image" class="woocommerce-main-image zoom" title="%s" data-rel="prettyPhoto' . $gallery . '">%s</a></li>', esc_url($image_link), esc_attr($image_title), $image ), $post->ID );
+						
+						
+						}
+						
+					}
+										
+					$loop = 0;
+					$columns = apply_filters( 'woocommerce_product_thumbnails_columns', 3 );
 					
 					$attachment_ids = $product->get_gallery_attachment_ids();
 					
@@ -110,14 +176,23 @@ $attachment_ids = array();
 							$image = sf_aq_resize( $image_link, 562, NULL, true, false);
 							
 							$image_class = esc_attr( implode( ' ', $classes ) );
-							$image_title = esc_attr( get_the_title( $attachment_id ) );
-							$image_alt = esc_attr( sf_get_post_meta(get_post_thumbnail_id(), '_wp_attachment_image_alt', true) );
+							$image_meta  = sf_get_attachment_meta( $attachment_id );
+							$image_caption = $image_alt = $image_title = $caption_html = "";
+							if ( isset($image_meta) ) {
+								$image_caption 		= esc_attr( $image_meta['caption'] );
+								$image_title 		= esc_attr( $image_meta['title'] );
+								$image_alt 			= esc_attr( $image_meta['alt'] );
+							}
+	
+							if ( $image_caption != "" ) {
+								$caption_html = '<div class="img-caption">' . $image_caption . '</div>';
+							}
 							
 							if ($image) {
 							
 								$image_html = '<img class="product-slider-image" data-zoom-image="'.$image_link.'" src="'.$image[0].'" width="'.$image[1].'" height="'.$image[2].'" alt="'.$image_alt.'" title="'.$image_title.'" />';
 		
-								echo apply_filters( 'woocommerce_single_product_image_html', sprintf( '<li>%s<a href="%s" class="%s" title="%s" alt="%s" data-rel="prettyPhoto[product-gallery]"><i class="ss-expand"></i></a></li>', $image_html, $image_link, $image_class, $image_title, $image_alt ), $attachment_id, $post->ID, $image_class );
+								echo apply_filters( 'woocommerce_single_product_image_html', sprintf( '<li>%s%s<a href="%s" class="%s lightbox" title="%s" alt="%s" data-rel="ilightbox[product]" data-caption="%s"><i class="ss-expand"></i></a></li>', $image_html, $caption_html, esc_url($image_link), esc_attr($image_class), esc_attr($image_title), esc_attr($image_alt), $image_caption ), $attachment_id, $post->ID, $image_class );
 							
 							}
 								
@@ -125,61 +200,22 @@ $attachment_ids = array();
 						}
 					
 					}
-					
-				} else {
-					
-					$attachment_ids = get_posts( array(
-						'post_type' 	=> 'attachment',
-						'numberposts' 	=> -1,
-						'post_status' 	=> null,
-						'post_parent' 	=> $post->ID,
-						'post__not_in'	=> array( get_post_thumbnail_id() ),
-						'post_mime_type'=> 'image',
-						'orderby'		=> 'menu_order',
-						'order'			=> 'ASC'
-					) );
-											
-					if ($attachment_ids) {
-				
-						$loop = 0;
-						$columns = apply_filters( 'woocommerce_product_thumbnails_columns', 3 );
-				
-						foreach ( $attachment_ids as $key => $attachment ) {
-				
-							if ( sf_get_post_meta( $attachment->ID, '_woocommerce_exclude_image', true ) == 1 )
-								continue;
-				
-							$classes = array( 'zoom' );
-				
-							if ( $loop == 0 || $loop % $columns == 0 )
-								$classes[] = 'first';
-				
-							if ( ( $loop + 1 ) % $columns == 0 )
-								$classes[] = 'last';
-								
-							$image_alt = esc_attr( sf_get_post_meta(get_post_thumbnail_id(), '_wp_attachment_image_alt', true) );
-				
-							printf( '<a href="%s" title="%s" alt="%s" rel="thumbnails" class="%s">%s</a>', wp_get_attachment_url( $attachment->ID ), esc_attr( $attachment->post_title ), $image_alt, implode(' ', $classes), wp_get_attachment_image( $attachment->ID, apply_filters( 'single_product_small_thumbnail_size', 'shop_thumbnail' ) ) );
-				
-							$loop++;
-				
-						}					
-					}
-				}
-			?>
-		</ul>
+				?>
+			</ul>
+		</div>
+		
+		<?php if ( $attachment_ids ) { ?>
+		<div id="product-img-nav" class="flexslider">
+			<ul class="slides thumbnails">
+				<?php if ( has_post_thumbnail() ) { ?>
+				<li itemprop="image"><?php echo get_the_post_thumbnail( $post->ID, 'shop_thumbnail' ); ?></li>
+				<?php } ?>
+				<?php do_action( 'woocommerce_product_thumbnails' ); ?>
+			</ul>
+		</div>
+		
+		<?php } ?>
+	
 	</div>
 	
-	<?php if ( $attachment_ids ) { ?>
-	<div id="product-img-nav" class="flexslider">
-		<ul class="slides thumbnails">
-			<?php if ( has_post_thumbnail() ) { ?>
-			<li itemprop="image"><?php echo get_the_post_thumbnail( $post->ID, 'shop_thumbnail' ); ?></li>
-			<?php } ?>
-			<?php do_action( 'woocommerce_product_thumbnails' ); ?>
-		</ul>
-	</div>
-	
-	<?php } ?>
-
-</div>
+<?php } ?>

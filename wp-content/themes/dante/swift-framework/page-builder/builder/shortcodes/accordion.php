@@ -5,7 +5,7 @@
 	*	Swift Page Builder - Blog Shortcode
 	*	------------------------------------------------
 	*	Swift Framework
-	* 	Copyright Swift Ideas 2014 - http://www.swiftideas.net
+	* 	Copyright Swift Ideas 2016 - http://www.swiftideas.net
 	*
 	*/
 
@@ -16,13 +16,18 @@
 	        $title = '';
 	
 	        extract(shortcode_atts(array(
-	            'title' => __("Section", "swift-framework-admin")
+	            'title' => __("Section", "swift-framework-admin"),
+	            'icon' => ''
 	        ), $atts));
 	
 	        $output = '';
 	        
 	        $output .= "\n\t\t\t" . '<div class="spb_accordion_section group">';
+	        if ( $icon != '' ) {
+	        $output .= "\n\t\t\t\t" . '<h3><a href="#"><i class="'.$icon.'"></i>'.$title.'</a></h3>';
+	        } else {
 	        $output .= "\n\t\t\t\t" . '<h3><a href="#">'.$title.'</a></h3>';
+	    	}
 	        //$output .= "\n\t\t\t\t" . '<div><div class="row-fluid">';
 	        $output .= "\n\t\t\t\t" . '<div class="row-fluid">';
 	        $output .= "\n\t\t\t\t" . spb_format_content($content);
@@ -108,7 +113,7 @@
 	
 	        $iner = '';
 	        foreach ($this->settings['params'] as $param) {
-	            $param_value = isset($$param['param_name']) ? $$param['param_name'] : null;
+	            $param_value = isset(${$param['param_name']}) ? ${$param['param_name']} : null;
 	
 	            if ( is_array($param_value)) {
 	                // Get first element from the array

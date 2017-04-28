@@ -113,7 +113,7 @@ SPBMap::map( 'jobs_overview', array(
     	    "type" => "textfield",
     	    "heading" => __("Intro Text", "swift-framework-admin"),
     	    "param_name" => "job_text",
-    	    "value" => __("", "swift-framework-admin"),
+    	    "value" => "",
     	    "description" => __("Enter the intro text for the jobs overview.", "swift-framework-admin")
     	),
         array(

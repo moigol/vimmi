@@ -52,7 +52,9 @@
 	        'has_archive' => true,
 	        'taxonomies' => array('team-category', 'post_tag')
 	       );  
-	  
+	  	
+	  	$args = apply_filters('dante_team_post_type_args', $args); 
+	  	
 	    register_post_type( 'team' , $args );  
 	}  
 	

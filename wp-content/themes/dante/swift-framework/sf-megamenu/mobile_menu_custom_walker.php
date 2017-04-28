@@ -33,8 +33,7 @@
             $attributes .= ! empty( $item->url ) ? ' href="' . esc_attr( $item->url ) . '"' : '';
 
             $prepend = '<span class="menu-item-text">';
-            $append  = '</span>';
-            $append = '<span class="nav-line"></span>';
+            $append = '<span class="nav-line"></span></span>';
 
             $description = ! empty( $item->description ) ? '<span class="menu-item-desc">' . esc_attr( $item->description ) . '</span>' : '';
 

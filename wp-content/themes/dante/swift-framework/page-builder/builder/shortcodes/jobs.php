@@ -54,11 +54,12 @@ class SwiftPageBuilderShortcode_spb_jobs extends SwiftPageBuilderShortcode {
         	$job_image = get_post_thumbnail_id();	
         	$job_image_url = wp_get_attachment_url( $job_image,'full' );
         	$image = sf_aq_resize( $job_image_url, 90, NULL, true, false);
+        	$image_alt = esc_attr( sf_get_post_meta($job_image, '_wp_attachment_image_alt', true) );
         				        	
         	$items .= '<li class="job">';
 
 			if ($image) {
-			$items .= '<img itemprop="image" src="'.$image[0].'" width="'.$image[1].'" height="'.$image[2].'" />';
+			$items .= '<img itemprop="image" src="'.$image[0].'" width="'.$image[1].'" height="'.$image[2].'" alt="'.$image_alt.'" />';
 			$items .= '<div class="job-details has-job-image">';
 			} else {
 			$items .= '<div class="job-details">';

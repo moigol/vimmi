@@ -1,5 +1,5 @@
 (function($){
-    $.fn.viewportChecker = function(useroptions){
+    $.fn.edsViewportChecker = function(useroptions){
        
         var options = {
             classToAdd: 'eds-scroll-visible',
@@ -7,14 +7,13 @@
             callbackFunction: function(elem){}
         };
         $.extend(options, useroptions);
-
        
-        var $elem = this,
-            windowHeight = $(window).height();
+        var $elem = this;            
 
         this.checkElements = function(){
             
             var scrollElem = ((navigator.userAgent.toLowerCase().indexOf('webkit') != -1) ? 'body' : 'html'),
+            	windowHeight = $(window).height(),
                 viewportTop = $(scrollElem).scrollTop(),
                 viewportBottom = (viewportTop + windowHeight);
 
@@ -37,20 +36,15 @@
 
                 // Add class if in viewport
                 if ((elemTop < viewportBottom) && (elemBottom > viewportTop)){
-                    $obj.addClass(options.classToAdd);
-
-                    
+                    $obj.addClass(options.classToAdd);                    
                     options.callbackFunction($obj);
                 }
             });
         };
         
-        $(window).scroll(this.checkElements);
+        $( window ).on( "scroll", $.throttle( 250, this.checkElements ) );
+        //For applying the onscroll part only after the user scroll atleast ones event after the item is in view port, just comment this out        
         this.checkElements();
-
         
-        $(window).resize(function(e){
-            windowHeight = e.currentTarget.innerHeight;
-        });
     };
 })(jQuery);

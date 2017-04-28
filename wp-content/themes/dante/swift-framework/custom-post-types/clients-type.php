@@ -50,7 +50,9 @@
 	        'supports' => array('title', 'thumbnail'),
 	        'has_archive' => true,
 	        'taxonomies' => array('clients-category', 'post_tag')
-	       );  
+	       );
+	      
+	    $args = apply_filters('dante_clients_post_type_args', $args); 
 	  
 	    register_post_type( 'clients' , $args );  
 	}  

@@ -5,7 +5,7 @@
 	*	Custom Portfolio Widget
 	*	------------------------------------------------
 	*	Swift Framework
-	* 	Copyright Swift Ideas 2014 - http://www.swiftideas.net
+	* 	Copyright Swift Ideas 2016 - http://www.swiftideas.net
 	*
 	*/
 	
@@ -14,8 +14,9 @@
 	function init_sf_recent_portfolio() { return register_widget('sf_recent_portfolio'); }
 	
 	class sf_recent_portfolio extends WP_Widget {
-		function sf_recent_portfolio() {
-			parent::WP_Widget( 'sf_recent_custom_portfolio', $name = 'Swift Framework Recent Portfolio' );
+	
+		function __construct() {
+			parent::__construct( 'sf_recent_custom_portfolio', $name = 'Swift Framework Recent Portfolio' );
 		}
 	
 		function widget( $args, $instance ) {
@@ -56,11 +57,12 @@
 				$thumb_image = get_post_thumbnail_id();
 				$thumb_img_url = wp_get_attachment_url( $thumb_image, 'widget-image' );
 				$image = sf_aq_resize( $thumb_img_url, 94, 75, true, false);
+				$image_alt = sf_get_post_meta($thumb_image, '_wp_attachment_image_alt', true);
 				?>
 				<li>
 					<a href="<?php echo $post_permalink; ?>" class="recent-post-image">
 						<?php if ($image) { ?>
-						<img src="<?php echo $image[0]; ?>" width="<?php echo $image[1]; ?>" height="<?php echo $image[2]; ?>" />
+						<img src="<?php echo $image[0]; ?>" width="<?php echo $image[1]; ?>" height="<?php echo $image[2]; ?>" alt="<?php echo $image_alt; ?>" />
 						<?php } ?>
 					</a>
 					<div class="recent-post-details">

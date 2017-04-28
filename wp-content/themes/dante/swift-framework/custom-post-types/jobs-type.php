@@ -51,7 +51,9 @@
 	        'supports' => array('title', 'editor', 'excerpt', 'thumbnail'),
 	        'has_archive' => true,
 	        'taxonomies' => array('jobs-category', 'post_tag')
-	       );  
+	       );
+	    
+	    $args = apply_filters('dante_jobs_post_type_args', $args); 
 	  
 	    register_post_type( 'jobs' , $args );  
 	}  

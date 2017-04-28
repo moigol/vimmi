@@ -5,7 +5,7 @@
 	*	Theme Customizer Options
 	*	------------------------------------------------
 	*	Swift Framework
-	* 	Copyright Swift Ideas 2014 - http://www.swiftideas.net
+	* 	Copyright Swift Ideas 2016 - http://www.swiftideas.net
 	*
 	*	sf_customize_register()
 	*	sf_customize_preview()
@@ -444,7 +444,7 @@
 				'priority'       => 12,
 			) ) );
 			
-			/* PROMO BAR STYLING
+			/* PROMO BAR STYLING
 			================================================== */
 					
 			$wp_customize->add_section( 'promo_bar_styling', array(

@@ -51,7 +51,9 @@
 	        'supports' => array('title', 'editor'),
 	        'has_archive' => true,
 	        'taxonomies' => array('testimonials-category', 'post_tag')
-	       );  
+	       );
+	    
+	    $args = apply_filters('dante_testimonials_post_type_args', $args); 
 	  
 	    register_post_type( 'testimonials' , $args );  
 	}  

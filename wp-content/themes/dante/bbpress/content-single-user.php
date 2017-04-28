@@ -1,9 +1,14 @@
+<?php
+
 /**
  * Single User Content Part
  *
  * @package bbPress
  * @subpackage Dante
  */
+
+?>
+
 <div id="bbpress-forums" class="container">
 
 	<?php do_action( 'bbp_template_notices' ); ?>

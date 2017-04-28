@@ -3,42 +3,12 @@
 <?php	
 	
 	$options = get_option('sf_dante_options');
-	$default_show_page_heading = $options['default_show_page_heading'];
-	$default_page_heading_bg_alt = $options['default_page_heading_bg_alt'];
 	$default_sidebar_config = $options['default_sidebar_config'];
-	$default_left_sidebar = $options['default_left_sidebar'];
-	$default_right_sidebar = $options['default_right_sidebar'];
+	$default_left_sidebar = strtolower($options['default_left_sidebar']);
+	$default_right_sidebar = strtolower($options['default_right_sidebar']);
 	$sidebar_width = $options['sidebar_width'];
 	
 	$pb_active = sf_get_post_meta($post->ID, '_spb_js_status', true);
-	$show_page_title = sf_get_post_meta($post->ID, 'sf_page_title', true);
-	$page_title_style = sf_get_post_meta($post->ID, 'sf_page_title_style', true);
-	$page_title = sf_get_post_meta($post->ID, 'sf_page_title_one', true);
-	$page_subtitle = sf_get_post_meta($post->ID, 'sf_page_subtitle', true);
-	$page_title_bg = sf_get_post_meta($post->ID, 'sf_page_title_bg', true);
-	$fancy_title_image = rwmb_meta('sf_page_title_image', 'type=image&size=full');
-	$page_title_text_style = sf_get_post_meta($post->ID, 'sf_page_title_text_style', true);
-	$fancy_title_image_url = "";
-	
-	if ($show_page_title == "") {
-		$show_page_title = $default_show_page_heading;
-	}
-	if ($page_title_bg == "") {
-		$page_title_bg = $default_page_heading_bg_alt;
-	}
-	if ($page_title == "") {
-		$page_title = get_the_title();
-	}
-	
-	foreach ($fancy_title_image as $detail_image) {
-		$fancy_title_image_url = $detail_image['url'];
-		break;
-	}
-									
-	if (!$fancy_title_image) {
-		$fancy_title_image = get_post_thumbnail_id();
-		$fancy_title_image_url = wp_get_attachment_url( $fancy_title_image, 'full' );
-	}
 	
 	$full_width_display = sf_get_post_meta($post->ID, 'sf_full_width_display', true);
 	$show_author_info = sf_get_post_meta($post->ID, 'sf_author_info', true);
@@ -46,8 +16,13 @@
 	$show_related =  sf_get_post_meta($post->ID, 'sf_related_articles', true);
 	$remove_breadcrumbs = sf_get_post_meta($post->ID, 'sf_no_breadcrumbs', true);
 	
+	$default_include_author_info = true;
+	if (isset($options['default_include_author_info'])) {
+	$default_include_author_info = $options['default_include_author_info'];
+	}
+	
 	if ($show_author_info == "") {
-		$show_author_info = true;
+		$show_author_info = $default_include_author_info;
 	}
 	if ($show_social == "") {
 		$show_social = true;
@@ -60,8 +35,8 @@
 	}
 	
 	$sidebar_config = sf_get_post_meta($post->ID, 'sf_sidebar_config', true);
-	$left_sidebar = sf_get_post_meta($post->ID, 'sf_left_sidebar', true);
-	$right_sidebar = sf_get_post_meta($post->ID, 'sf_right_sidebar', true);
+	$left_sidebar = strtolower(sf_get_post_meta($post->ID, 'sf_left_sidebar', true));
+	$right_sidebar = strtolower(sf_get_post_meta($post->ID, 'sf_right_sidebar', true));
 	
 	if ($sidebar_config == "") {
 		$sidebar_config = $default_sidebar_config;
@@ -101,51 +76,19 @@
 	} else {
 		$page_wrap_class = 'has-no-sidebar';
 	}
+	
+	$same_category_navigation = false;
+	if ( isset($options['same_category_navigation']) ) {
+		$same_category_navigation = $options['same_category_navigation'];
+	}
 ?>
-
-<?php if ($show_page_title) { ?>	
-<div class="container">
-	<div class="row">
-		<?php if ($page_title_style == "fancy") { ?>
-		<?php if ($fancy_title_image_url != "") { ?>
-		<div class="page-heading fancy-heading col-sm-12 clearfix alt-bg <?php echo $page_title_text_style; ?>-style fancy-image" style="background-image: url(<?php echo $fancy_title_image_url; ?>);">
-		<?php } else { ?>
-		<div class="page-heading fancy-heading col-sm-12 clearfix alt-bg <?php echo $page_title_bg; ?>">
-		<?php } ?>
-			<div class="heading-text">
-				<h1><?php echo $page_title; ?></h1>
-				<?php if ($page_subtitle) { ?>
-				<h3><?php echo $page_subtitle; ?></h3>
-				<?php } ?>
-			</div>
-		</div>
-		<?php } else { ?>
-		<div class="page-heading col-sm-12 clearfix alt-bg <?php echo $page_title_bg; ?>">
-			<div class="heading-text">
-				<h1><?php echo $page_title; ?></h1>
-			</div>
-			<?php 
-				// BREADCRUMBS
-				if (!$remove_breadcrumbs) {
-					echo sf_breadcrumbs();
-				}
-			?>
-		</div>
-		<?php } ?>
-	</div>
-</div>
-<?php } ?>
-
 
 <?php if (have_posts()) : the_post(); ?>
 	
-<?php if ($sidebar_config != "no-sidebars" || $pb_active != "true") { ?>
-<div class="container">
-<?php } ?>
-		
 	<?php		
 		$post_author = get_the_author_link();
 		$post_date = get_the_date();
+		$post_date_str = get_the_date('Y-m-d');
 		$post_categories = get_the_category_list(', ');
 		
 		$media_type = $media_image = $media_video = $media_gallery = '';
@@ -222,6 +165,17 @@
 		}
 							
 		$figure_output .= '</figure>'."\n";
+		
+		$logo = $logo_width = $logo_height = "";
+		if (isset($options['logo_upload'])) {
+		$logo = __( $options['logo_upload'] , 'swiftframework' );
+		}
+		if (isset($options['logo_width'])) {
+		$logo_width = $options['logo_width'];
+		}
+		if (isset($options['logo_height'])) {
+		$logo_height = $options['logo_height'];
+		}
 	?>
 	
 	<div class="inner-page-wrap <?php echo $page_wrap_class; ?> clearfix">
@@ -241,6 +195,11 @@
 		<article <?php post_class('clearfix row'); ?> id="<?php the_ID(); ?>" itemscope itemtype="http://schema.org/BlogPosting">
 		<?php } ?>
 		
+		<div class="article-meta">
+			<div itemprop="headline"><?php the_title(); ?></div>
+			<time itemprop="datePublished" datetime="<?php echo $post_date_str; ?>"><?php echo $post_date; ?></time>
+		</div>
+		
 		<?php if ($sidebar_config == "both-sidebars") { ?>
 		<div class="row">
 			<div class="page-content col-sm-8 clearfix">
@@ -253,12 +212,24 @@
 				<?php if ($sidebar_config == "no-sidebars" && $pb_active == "true") { ?>
 				<div class="container">
 				<?php } ?>
+				
+				<meta itemprop="datePublished" content="<?php echo get_the_date( 'Y-m-d' ); ?>"/>
+				<meta itemprop="dateModified" content="<?php echo get_the_modified_date( 'Y-m-d' ); ?>"/>
+				<div itemprop="publisher" itemscope="" itemtype="https://schema.org/Organization">
+					<div itemprop="logo" itemscope="" itemtype="https://schema.org/ImageObject" style="display:none;">
+						<img src="<?php echo $logo; ?>" />
+						<meta content="<?php echo $logo; ?>" itemprop="url" />
+					  	<meta content="<?php echo $logo_width; ?>" itemprop="width" />
+					  	<meta content="<?php echo $logo_height; ?>" itemprop="height" />
+				   	</div>
+				  	<meta itemprop="name" content="<?php bloginfo('name'); ?>" />
+				</div>
 			
-				<div class="entry-title"><?php echo $page_title; ?></div>
+				<div class="entry-title"><?php the_title(); ?></div>
 				
 				<ul class="post-pagination-wrap curved-bar-styling clearfix">
-					<li class="prev"><?php next_post_link('%link', __('<i class="ss-navigateleft"></i> <span class="nav-text">%title</span>', 'swiftframework'), FALSE); ?></li>
-					<li class="next"><?php previous_post_link('%link', __('<span class="nav-text">%title</span><i class="ss-navigateright"></i>', 'swiftframework'), FALSE); ?></li>
+					<li class="prev"><?php next_post_link('%link', __('<i class="ss-navigateleft"></i> <span class="nav-text">%title</span>', 'swiftframework'), $same_category_navigation); ?></li>
+					<li class="next"><?php previous_post_link('%link', __('<span class="nav-text">%title</span><i class="ss-navigateright"></i>', 'swiftframework'), $same_category_navigation); ?></li>
 				</ul>
 				
 				<div class="post-info clearfix">
@@ -401,12 +372,26 @@
 								$thumb_image = get_post_thumbnail_id();
 							}
 							$thumb_img_url = wp_get_attachment_url( $thumb_image, 'full' );
-							$image = sf_aq_resize( $thumb_img_url, 300, 225, true, false);
+							$thumb_width = 300;
+							$thumb_height = 225;
+							if ( isset($options['related_article_thumb_width']) ) {
+								$thumb_width = $options['related_article_thumb_width'];
+							}
+							if ( isset($options['related_article_thumb_height']) ) {
+								$thumb_height = $options['related_article_thumb_height'];
+							}
+							if ($thumb_width == "") {
+								$thumb_width = 300;
+							}
+							if ($thumb_height == "") {
+								$thumb_height = 225;
+							}
+							$image = sf_aq_resize( $thumb_img_url, $thumb_width, $thumb_height, true, false);
 							?>
 							<li class="related-item col-sm-3 clearfix">
 								<figure class="animated-overlay overlay-alt">
 									<?php if ($image) { ?>
-									<img itemprop="image" src="<?php echo $image[0]; ?>" width="<?php echo $image[1]; ?>" height="<?php echo $image[2]; ?>" alt="<?php echo $item_title; ?>" />
+									<img src="<?php echo $image[0]; ?>" width="<?php echo $image[1]; ?>" height="<?php echo $image[2]; ?>" alt="<?php echo $item_title; ?>" />
 									<?php } else { ?>
 									<div class="img-holder"><i class="ss-pen"></i></div>
 									<?php } ?>
@@ -480,10 +465,6 @@
 		<?php } ?>
 				
 	</div>
-
-<?php if ($sidebar_config != "no-sidebars" || $pb_active != "true") { ?>
-</div>
-<?php } ?>
 
 <?php endif; ?>
 

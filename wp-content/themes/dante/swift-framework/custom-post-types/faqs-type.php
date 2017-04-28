@@ -51,7 +51,9 @@
 	        'supports' => array('title', 'editor'),
 	        'has_archive' => true,
 	        'taxonomies' => array('faqs-category', 'post_tag')
-	       );  
+	       );
+	    
+	    $args = apply_filters('dante_faqs_post_type_args', $args);  
 	  
 	    register_post_type( 'faqs' , $args );  
 	}  

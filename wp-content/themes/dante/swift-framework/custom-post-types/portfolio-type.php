@@ -64,8 +64,10 @@
 	        			: false,
 	        'supports' => array('title', 'editor', 'thumbnail', 'revisions'),
 	        'has_archive' => true,
-	        'taxonomies' => array('portfolio-category')
+	        'taxonomies' => array('portfolio-category', 'post_tag')
 	       );  
+	    
+	    $args = apply_filters('dante_portfolio_post_type_args', $args); 
 	  
 	    register_post_type( 'portfolio' , $args );  
 	}  

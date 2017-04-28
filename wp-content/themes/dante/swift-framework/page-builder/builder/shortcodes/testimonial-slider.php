@@ -118,18 +118,20 @@ class SwiftPageBuilderShortcode_testimonial_slider extends SwiftPageBuilderShort
 
         $el_class .= ' testimonial';
         
-        if ($alt_background == "none" || $sidebars != "no-sidebars") {
-		$output .= "\n\t".'<div class="spb_testimonial_slider_widget spb_content_element '.$width.$el_class.'">';
-        } else {
-        $output .= "\n\t".'<div class="spb_testimonial_slider_widget spb_content_element alt-bg '.$alt_background.' '.$width.$el_class.'">';            
+        // Full width setup
+        $fullwidth = false;
+        if ($alt_background != "none") {
+        $fullwidth = true;
         }
+        
+        $output .= "\n\t".'<div class="spb_testimonial_slider_widget spb_content_element '.$width.$el_class.'">';
         $output .= "\n\t\t".'<div class="spb_wrapper slider-wrap">';
         $output .= ($title != '' ) ? "\n\t\t\t".'<div class="heading-wrap"><h3 class="spb-heading spb-center-heading"><span>'.$title.'</span></h3></div>' : '';
         $output .= "\n\t\t\t".$items;
         $output .= "\n\t\t".'</div> '.$this->endBlockComment('.spb_wrapper');
         $output .= "\n\t".'</div> '.$this->endBlockComment($width);
 
-        $output = $this->startRow($el_position) . $output . $this->endRow($el_position);
+        $output = $this->startRow($el_position, $width, $fullwidth, false, $alt_background) . $output . $this->endRow($el_position, $width, $fullwidth, false);
         
         global $sf_include_carousel;
         $sf_include_carousel = true;
@@ -200,7 +202,7 @@ SPBMap::map( 'testimonial_slider', array(
             "heading" => __("Alt Background Preview", "swift-framework-admin"),
             "param_name" => "altbg_preview",
             "value" => "",
-            "description" => __("", "swift-framework-admin")
+            "description" => ""
         ),
         array(
             "type" => "textfield",

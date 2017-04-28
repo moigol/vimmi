@@ -13,65 +13,13 @@
 	$member_dribbble = sf_get_post_meta($post->ID, 'sf_team_member_dribbble', true);
 	$member_xing = sf_get_post_meta($post->ID, 'sf_team_member_xing', true);
 	$member_image_url = wp_get_attachment_url( get_post_thumbnail_id(), 'full' );
+	$image_alt = esc_attr( sf_get_post_meta( get_post_thumbnail_id() , '_wp_attachment_image_alt', true) );
 	
-	$show_page_title = sf_get_post_meta($post->ID, 'sf_page_title', true);
-	$page_title_style = sf_get_post_meta($post->ID, 'sf_page_title_style', true);
-	$page_title = sf_get_post_meta($post->ID, 'sf_page_title_one', true);
-	$page_subtitle = sf_get_post_meta($post->ID, 'sf_page_subtitle', true);
-	$page_title_bg = sf_get_post_meta($post->ID, 'sf_page_title_bg', true);
-	$fancy_title_image = rwmb_meta('sf_page_title_image', 'type=image&size=full');
-	$page_title_text_style = sf_get_post_meta($post->ID, 'sf_page_title_text_style', true);
-	$remove_breadcrumbs = sf_get_post_meta($post->ID, 'sf_no_breadcrumbs', true);
-	$fancy_title_image_url = "";
-	
-	if ($show_page_title == "") {
-		$show_page_title = $default_show_page_heading;
-	}
-	if ($page_title_bg == "") {
-		$page_title_bg = $default_page_heading_bg_alt;
-	}
-	if ($page_title == "") {
-		$page_title = get_the_title();
-	}
-	
-	foreach ($fancy_title_image as $detail_image) {
-		$fancy_title_image_url = $detail_image['url'];
-		break;
+	$same_category_navigation = false;
+	if ( isset($options['same_category_navigation']) ) {
+		$same_category_navigation = $options['same_category_navigation'];
 	}
 ?>
-
-<?php if ($show_page_title) { ?>
-<div class="container">	
-	<div class="row">
-		<?php if ($page_title_style == "fancy") { ?>
-		<?php if ($fancy_title_image_url != "") { ?>
-		<div class="page-heading fancy-heading col-sm-12 clearfix alt-bg <?php echo $page_title_text_style; ?>-style fancy-image" style="background-image: url(<?php echo $fancy_title_image_url; ?>);">
-		<?php } else { ?>
-		<div class="page-heading fancy-heading col-sm-12 clearfix alt-bg <?php echo $page_title_bg; ?>">
-		<?php } ?>
-			<div class="heading-text">
-				<h1><?php echo $page_title; ?></h1>
-				<?php if ($page_subtitle) { ?>
-				<h3><?php echo $page_subtitle; ?></h3>
-				<?php } ?>
-			</div>
-		</div>
-		<?php } else { ?>
-		<div class="page-heading col-sm-12 clearfix alt-bg <?php echo $page_title_bg; ?>">
-			<div class="heading-text">
-				<h1><?php echo $page_title; ?></h1>
-			</div>
-			<?php 
-				// BREADCRUMBS
-				if (!$remove_breadcrumbs) {
-					echo sf_breadcrumbs();
-				}
-			?>
-		</div>
-		<?php } ?>
-	</div>
-</div>
-<?php } ?>
 
 <div class="container">
 
@@ -82,14 +30,14 @@
 			<!-- OPEN article -->
 			<article <?php post_class('clearfix '); ?> id="<?php the_ID(); ?>" itemscope itemtype="http://schema.org/Person">
 				
-				<div class="entry-title" itemprop="name"><?php echo $page_title; ?></div>
+				<div class="entry-title" itemprop="name"><?php the_title(); ?></div>
 				
 				<figure class="profile-image-wrap">
 					<?php $detail_image = sf_aq_resize( $member_image_url, 600, NULL, true, false); ?>
 					
 					<?php if ($detail_image) { ?>
 						
-					<img itemprop="image" src="<?php echo $detail_image[0]; ?>" width="<?php echo $detail_image[1]; ?>" height="<?php echo $detail_image[2]; ?>" />
+					<img itemprop="image" src="<?php echo $detail_image[0]; ?>" width="<?php echo $detail_image[1]; ?>" height="<?php echo $detail_image[2]; ?>" alt="<?php echo $image_alt; ?>" />
 						
 					<?php } ?>
 				</figure>			
@@ -119,8 +67,8 @@
 			</article>
 			
 			<ul class="post-pagination-wrap curved-bar-styling clearfix">
-				<li class="prev"><?php next_post_link('%link', __('<i class="ss-navigateleft"></i> <span class="nav-text">%title</span>', 'swiftframework'), FALSE); ?></li>
-				<li class="next"><?php previous_post_link('%link', __('<span class="nav-text">%title</span><i class="ss-navigateright"></i>', 'swiftframework'), FALSE); ?></li>
+				<li class="prev"><?php next_post_link('%link', __('<i class="ss-navigateleft"></i> <span class="nav-text">%title</span>', 'swiftframework'), $same_category_navigation, '', 'team-category'); ?></li>
+				<li class="next"><?php previous_post_link('%link', __('<span class="nav-text">%title</span><i class="ss-navigateright"></i>', 'swiftframework'), $same_category_navigation, '', 'team-category'); ?></li>
 			</ul>
 	
 		<?php endif; ?>

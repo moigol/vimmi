@@ -122,14 +122,14 @@ class SwiftPageBuilderShortcode_recent_posts extends SwiftPageBuilderShortcode {
     					$link_config = 'href="'.$thumb_link_url.'" class="link-to-url" target="_blank"';
     					$item_icon = "ss-link";
     				} else if ($thumb_link_type == "lightbox_thumb") {
-    					$link_config = 'href="'.$thumb_img_url.'" class="view"';
+    					$link_config = 'href="'.$thumb_img_url.'" class="lightbox" data-rel="ilightbox['.$post_ID.']"';
     					$item_icon = "ss-view";
     				} else if ($thumb_link_type == "lightbox_image") {
     					$lightbox_image_url = '';
     					foreach ($thumb_lightbox_image as $image) {
     						$lightbox_image_url = $image['full_url'];
     					}
-    					$link_config = 'href="'.$lightbox_image_url.'" class="view"';
+    					$link_config = 'href="'.$lightbox_image_url.'" class="lightbox" data-rel="ilightbox['.$post_ID.']"';
     					$item_icon = "ss-view";
     				} else if ($thumb_link_type == "lightbox_video") {
     					$link_config = 'data-video="'.$thumb_lightbox_video_url.'" href="#" class="fw-video-link"';

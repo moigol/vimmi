@@ -52,6 +52,8 @@
 	        'has_archive' => true,
 	        'taxonomies' => array('gallery-category')
 	       );  
+	    
+	    $args = apply_filters('dante_gallery_post_type_args', $args); 
 	  
 	    register_post_type( 'galleries' , $args );  
 	}  

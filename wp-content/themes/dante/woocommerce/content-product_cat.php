@@ -6,7 +6,7 @@
  *
  * @author 		WooThemes
  * @package 	WooCommerce/Templates
- * @version     2.1.2
+ * @version     2.6.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -14,30 +14,39 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 global $woocommerce_loop, $sf_sidebar_config;
 
 // Store loop count we're currently on
-if ( empty( $woocommerce_loop['loop'] ) )
+if ( empty( $woocommerce_loop['loop'] ) ) {
 	$woocommerce_loop['loop'] = 0;
-
-// Store column count for displaying the grid
-if ( empty( $woocommerce_loop['columns'] ) )
-	$woocommerce_loop['columns'] = apply_filters( 'loop_shop_columns', 4 );
-		
-if ($sf_sidebar_config == "no-sidebars") {
-	$woocommerce_loop['columns'] = apply_filters( 'loop_shop_columns', 4 );
-} else if ($sf_sidebar_config == "both-sidebars") {
-	$woocommerce_loop['columns'] = apply_filters( 'loop_shop_columns', 2 );
-} else {
-	$woocommerce_loop['columns'] = apply_filters( 'loop_shop_columns', 3 );
 }
 
-// Increase loop count
-$woocommerce_loop['loop']++;
+if ( empty( $woocommerce_loop['columns'] ) ) {
+	global $sidebars;
+	$columns = 4;
+	
+	if ( $sidebars == "no-sidebars" || is_singular('portfolio') ) {
+		$columns = 4;
+	} else if ( $sidebars == "both-sidebars" ) {
+		$columns = 2;
+	} else {
+		$columns = 3;
+	}
+	$woocommerce_loop['columns'] = $columns;
+}
+
+// Classes
+$classes = array();
+
+if ( version_compare( WOOCOMMERCE_VERSION, "2.6.0" ) < 0 ) {
+	// Increase loop count
+	$woocommerce_loop['loop']++;
+	
+	// Extra post classes
+	if ( 0 == ( $woocommerce_loop['loop'] - 1 ) % $woocommerce_loop['columns'] || 1 == $woocommerce_loop['columns'] )
+		$classes[] = 'first';
+	if ( 0 == $woocommerce_loop['loop'] % $woocommerce_loop['columns'] )
+		$classes[] = 'last';
+}
 ?>
-<li class="product-category product<?php
-    if ( ( $woocommerce_loop['loop'] - 1 ) % $woocommerce_loop['columns'] == 0 || $woocommerce_loop['columns'] == 1)
-        echo ' first';
-	if ( $woocommerce_loop['loop'] % $woocommerce_loop['columns'] == 0 )
-		echo ' last';
-	?>">
+<li <?php wc_product_cat_class( $classes, $category ); ?>>
 
 	<?php do_action( 'woocommerce_before_subcategory', $category ); ?>
 

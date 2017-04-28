@@ -5,7 +5,7 @@
 	*	Swift Page Builder - Products Function Class
 	*	------------------------------------------------
 	*	Swift Framework
-	* 	Copyright Swift Ideas 2014 - http://www.swiftideas.net
+	* 	Copyright Swift Ideas 2016 - http://www.swiftideas.net
 	*	
 	*	sf_mini_product_items()
 	*	sf_product_items()
@@ -175,7 +175,7 @@
 		           	    if ( $count > 0 ) {
 		           	
 		           	        $average = number_format($rating / $count, 2);	           			
-		           	        $rating_output = '<div class="star-rating" title="'.sprintf(__('Rated %s out of 5', 'woocommerce'), $average).'"><span style="width:'.($average*16).'px"><span class="rating">'.$average.'</span> '.__('out of 5', 'woocommerce').'</span></div>';
+		           	        $rating_output = '<div class="star-rating" title="'.sprintf(__('Rated %s out of 5', 'swiftframework'), $average).'"><span style="width:'.($average*16).'px"><span class="rating">'.$average.'</span> '.__('out of 5', 'swiftframework').'</span></div>';
 		           	
 		           	    }
 		           	}
@@ -198,9 +198,12 @@
 		       		
 		       		} else {
 		            
-	            		$size = sizeof( get_the_terms( $post->ID, 'product_cat' ) );
-	            		$product_output .= $product->get_categories( ', ', '<span class="product-cats">' . _n( '', '', $size, 'woocommerce' ) . ' ', '</span>' );
-	            	
+	            		if ( function_exists('wc_get_product_category_list') ) {
+	            			$product_output .= wc_get_product_category_list( ', ', '<span class="product-cats">', '</span>' );
+	            		} else {
+	            			$product_output .= $product->get_categories( ', ', '<span class="product-cats">', '</span>' );
+	            		}
+
 	            	}
 	            	if (!$sf_catalog_mode) {
 		            $product_output .= '<span class="price">'.$product->get_price_html().'</span>';
@@ -228,7 +231,7 @@
 	/* STANDARD PRODUCTS
 	================================================== */
 	if (!function_exists('sf_product_items')) { 		
-		function sf_product_items($asset_type, $category, $carousel, $product_size, $item_count, $width) {
+		function sf_product_items($asset_type, $category, $products, $carousel, $product_size, $item_count, $width) {
 			
 			global $woocommerce, $woocommerce_loop;
 			
@@ -244,6 +247,10 @@
 						'posts_per_page' => $item_count
 					);
 				
+				if ( $products != '' ) {
+					$args['post__in'] = explode(",", $products);
+				}
+				
 				$args['meta_query'] = array();
 				$args['meta_query'][] = $woocommerce->query->stock_status_meta_query();
 				$args['meta_query'][] = $woocommerce->query->visibility_meta_query();	
@@ -258,6 +265,9 @@
 					    'meta_value' => 'yes',
 					    'posts_per_page' => $item_count
 					);
+				if ( $products != '' ) {
+					$args['post__in'] = explode(",", $products);
+				}
 			} else if ($asset_type == "top-rated") {
 				add_filter( 'posts_clauses',  array( $woocommerce->query, 'order_by_rating_post_clauses' ) );
 						
@@ -268,6 +278,9 @@
 						'ignore_sticky_posts'   => 1,
 					    'posts_per_page' => $item_count
 					);
+				if ( $products != '' ) {
+					$args['post__in'] = explode(",", $products);
+				}
 				$args['meta_query'] = $woocommerce->query->get_meta_query();
 			
 			} else if ($asset_type == "recently-viewed") {			
@@ -313,9 +326,15 @@
 					'no_found_rows' 	=> 1,
 					'post_status' 		=> 'publish',
 					'post_type' 		=> 'product',
-					'meta_query' 		=> $meta_query,
-					'post__in'			=> array_merge( array( 0 ), $product_ids_on_sale )
+					'meta_query' 		=> $meta_query
 				);
+				
+				if ( $products != '' ) {
+					$args['post__in'] = array_merge( explode(",", $products) , $product_ids_on_sale );
+				} else {
+					$args['post__in'] = array_merge( array( 0 ), $product_ids_on_sale );
+				}
+				
 			} else {				
 				$args = array(
 					'posts_per_page' => $item_count,
@@ -326,6 +345,10 @@
 					'no_found_rows'  => 1,
 					'product_cat' => $category
 				);
+				
+				if ( $products != '' ) {
+					$args['post__in'] = explode(",", $products);
+				}
 				
 				$args['meta_query'] = array();
 				$args['meta_query'][] = $woocommerce->query->stock_status_meta_query();
@@ -411,23 +434,20 @@
 			   
 				<?php if ($carousel == "yes") { ?>
 					
-					<div class="product-carousel" data-columns="<?php echo $columns; ?>">
-						
-						<div class="carousel-overflow">
+					<div class="product-carousel carousel-wrap">
 										
-							<ul class="products list-<?php echo $asset_type; ?>" id="carousel-<?php echo $sf_carouselID; ?>">
-							
-								<?php while ( $products->have_posts() ) : $products->the_post(); ?>
-							
-									<?php woocommerce_get_template_part( 'content', 'product' ); ?>
-							
-								<?php endwhile; // end of the loop. ?>
-							 
-							</ul>
-												
-						</div>
+						<ul class="products list-<?php echo $asset_type; ?> carousel-items"
+						     id="carousel-<?php echo $sf_carouselID; ?>" data-columns="<?php echo $columns; ?>">
 						
-						<a href="#" class="prev"><i class="ss-navigateleft"></i></a><a href="#" class="next"><i class="ss-navigateright"></i></a>
+							<?php while ( $products->have_posts() ) : $products->the_post(); ?>
+						
+								<?php wc_get_template_part( 'content', 'product' ); ?>
+						
+							<?php endwhile; // end of the loop. ?>
+						 
+						</ul>
+						
+						<a href="#" class="carousel-prev"><i class="ss-navigateleft"></i></a><a href="#" class="carousel-next"><i class="ss-navigateright"></i></a>
 						
 					</div>
 					
@@ -437,7 +457,7 @@
 				
 					<?php while ( $products->have_posts() ) : $products->the_post(); ?>
 				
-						<?php woocommerce_get_template_part( 'content', 'product' ); ?>
+						<?php wc_get_template_part( 'content', 'product' ); ?>
 				
 					<?php endwhile; // end of the loop. ?>
 				 

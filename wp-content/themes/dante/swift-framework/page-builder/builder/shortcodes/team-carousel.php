@@ -70,7 +70,8 @@ class SwiftPageBuilderShortcode_team_carousel extends SwiftPageBuilderShortcode 
     		
     		if( have_posts() ) {
     		
-    			$items .= '<div class="carousel-overflow"><ul id="carousel-'.$sf_carouselID.'" class="team-members carousel-items '.$list_class.' clearfix" data-columns="'.$columns.'" data-auto="false">';
+    			$items .= '<div class="carousel-wrap">';
+    			$items .= '<div id="carousel-'.$sf_carouselID.'" class="team-members carousel-items '.$list_class.' clearfix" data-columns="'.$columns.'">';
     	
     			while ( have_posts() ) {
     				
@@ -81,7 +82,7 @@ class SwiftPageBuilderShortcode_team_carousel extends SwiftPageBuilderShortcode 
     				$member_bio = sf_excerpt($excerpt_length);
     				$custom_excerpt = sf_get_post_meta($post->ID, 'sf_custom_excerpt', true);
     				if ($custom_excerpt != "") {
-    					$member_bio = sf_custom_excerpt($custom_excerpt, 1000);
+    					$member_bio = sf_custom_excerpt($custom_excerpt, $excerpt_length);
     				}
     				$member_twitter = sf_get_post_meta($post->ID, 'sf_team_member_twitter', true);
     				$member_facebook = sf_get_post_meta($post->ID, 'sf_team_member_facebook', true);
@@ -92,15 +93,16 @@ class SwiftPageBuilderShortcode_team_carousel extends SwiftPageBuilderShortcode 
     				$member_dribbble = sf_get_post_meta($post->ID, 'sf_team_member_dribbble', true);
     				$member_xing = sf_get_post_meta($post->ID, 'sf_team_member_xing', true);
     				$member_image = get_post_thumbnail_id();
-    				   	
-    				$items .= '<li itemscope data-id="id-'. $count .'" class="clearfix carousel-item team-member '.$item_class.'">';
+    				
+    				$items .= '<div itemscope data-id="id-'. $count .'" class="clearfix carousel-item team-member '.$item_class.'">';
     				
 					$img_url = wp_get_attachment_url( $member_image,'full' );
 					$image = sf_aq_resize( $img_url, 270, 270, true, false);
+					$image_alt = esc_attr( sf_get_post_meta($member_image, '_wp_attachment_image_alt', true) );
 					
 					$items .= '<figure class="standard-style">';
 								if ($image) {
-									$items .= '<img itemprop="image" src="'.$image[0].'" width="'.$image[1].'" height="'.$image[2].'" />';
+									$items .= '<a href="'.get_permalink().'"><img itemprop="image" src="'.$image[0].'" width="'.$image[1].'" height="'.$image[2].'" alt="'.$image_alt.'" /></a>';
 								}
 					if (($member_twitter != "") || ($member_facebook != "") || ($member_linkedin != "") || ($member_google_plus != "") || ($member_skype != "") || ($member_instagram != "") || ($member_dribbble != "") || ($member_xing != "")) {
 						$items .= '<figcaption><span>'.__("Follow:", "swiftframework").'</span><ul class="social-icons">';
@@ -145,15 +147,15 @@ class SwiftPageBuilderShortcode_team_carousel extends SwiftPageBuilderShortcode 
     				
     				   				
     				$items .= '</div>';
-    				$items .= '</li>';
+    				$items .= '</div>';
     				$count++;
     			}
     			
     			wp_reset_query();
     					
-    			$items .= '</ul>';
+    			$items .= '</div>';
     			
-    			$items .= '<a href="#" class="prev"><i class="ss-navigateleft"></i></a><a href="#" class="next"><i class="ss-navigateright"></i></a>';
+    			$items .= '<a href="#" class="carousel-prev"><i class="ss-navigateleft"></i></a><a href="#" class="carousel-next"><i class="ss-navigateright"></i></a>';
     			
     			$options = get_option('sf_dante_options');
     			if ($options['enable_swipe_indicators']) {

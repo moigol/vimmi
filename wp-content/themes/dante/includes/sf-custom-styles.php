@@ -4,7 +4,7 @@
 	*	Theme Styling Functions
 	*	------------------------------------------------
 	*	Swift Framework
-	* 	Copyright Swift Ideas 2014 - http://www.swiftideas.net
+	* 	Copyright Swift Ideas 2016 - http://www.swiftideas.net
 	*
 	*	sf_custom_styles()
 	*	sf_custom_script()
@@ -278,7 +278,14 @@
 			$alt_ten_bg_image = $options['alt_ten_bg_image'];
 			}
 			$alt_ten_bg_image_size = $options['alt_ten_bg_image_size'];
-
+	
+		
+			// MOBILE ANIMS
+			$disable_mobile_animations = true;
+			if ( isset( $options['disable_mobile_animations'] ) ) {
+			$disable_mobile_animations = $options['disable_mobile_animations'];
+			}
+			
 			// PAGE BACKGROUND IMAGE //
 			$bg_image_url = $inner_bg_image_url = "";
 			$page_background_image = rwmb_meta('sf_background_image', 'type=image&size=full');
@@ -371,11 +378,6 @@
 				.span-bs-threequarter {
 					width: 340px;
 				}
-				.alt-bg {
-					margin-left: -1000px!important;
-					padding-left: 1000px;
-					padding-right: 1000px;
-				}
 
 				/* PRODUCTS */
 				body .has-no-sidebar ul.products li.product {
@@ -385,10 +387,7 @@
 				body .has-one-sidebar ul.products li.product {
 					width: 140px;
 				}
-				body.woocommerce .has-one-sidebar .upsells.products ul.products li.product, body.woocommerce .has-one-sidebar .related.products ul.products li.product  {
-					width: 139px;
-				}
-				body.woocommerce .has-no-sidebar ul.products li.product, body.woocommerce .has-no-sidebar .upsells.products ul.products li.product, body.woocommerce .has-no-sidebar .related.products ul.products li.product, body.woocommerce .has-one-sidebar ul.products li.product {
+				body.woocommerce .has-no-sidebar ul.products li.product, body.woocommerce .has-one-sidebar ul.products li.product {
 					width: 212px
 				}
 				body .has-one-sidebar .products-standard.span8 ul.products li.product {
@@ -695,10 +694,10 @@
 				body .has-both-sidebars .products-mini ul.products li.product {
 					width: 170px;
 				}
-				body.woocommerce .has-no-sidebar ul.products li.product, body.woocommerce .has-no-sidebar .upsells.products ul.products li.product {
+				body.woocommerce .has-no-sidebar ul.products li.product {
 					width: 262px;
 				}
-				body.woocommerce .has-one-sidebar ul.products li.product, body.woocommerce .has-one-sidebar .upsells.products ul.products li.product {
+				body.woocommerce .has-one-sidebar ul.products li.product {
 					width: 270px;
 				}
 				body.woocommerce .has-both-sidebars ul.products li.product, body.woocommerce .has-both-sidebars ul.products li.product {
@@ -711,26 +710,6 @@
 				}
 				.spb_portfolio_carousel_widget.span12 .caroufredsel_wrapper {
 					min-width: 1200px;
-				}
-				@media only screen and (min-width: 1200px) {
-					.alt-bg {
-						padding-left: 210px;
-						padding-right: 210px;
-					}
-				}
-				@media only screen and (min-width: 1500px) {
-					.alt-bg {
-						margin-left: -410px!important;
-						padding-left: 410px;
-						padding-right: 410px;
-					}
-				}
-				@media only screen and (min-width: 1980px) {
-					.alt-bg {
-						margin-left: -750px!important;
-						padding-left: 750px;
-						padding-right: 750px;
-					}
 				}
 				'."\n";
 			}
@@ -748,7 +727,7 @@
 			// CUSTOM COLOUR STYLES
 			echo '::selection, ::-moz-selection {background-color: '.$accent_color.'; color: #fff;}';
 			echo '.recent-post figure, span.highlighted, span.dropcap4, .loved-item:hover .loved-count, .flickr-widget li, .portfolio-grid li, input[type="submit"], .wpcf7 input.wpcf7-submit[type="submit"], .gform_wrapper input[type="submit"], .mymail-form input[type="submit"], .woocommerce-page nav.woocommerce-pagination ul li span.current, .woocommerce nav.woocommerce-pagination ul li span.current, figcaption .product-added, .woocommerce .wc-new-badge, .yith-wcwl-wishlistexistsbrowse a, .yith-wcwl-wishlistaddedbrowse a, .woocommerce .widget_layered_nav ul li.chosen > *, .woocommerce .widget_layered_nav_filters ul li a, .sticky-post-icon, .fw-video-close:hover {background-color: '.$accent_color.'!important; color: '.$accent_alt_color.';}';
-			echo 'a:hover, #sidebar a:hover, .pagination-wrap a:hover, .carousel-nav a:hover, .portfolio-pagination div:hover > i, #footer a:hover, #copyright a, .beam-me-up a:hover span, .portfolio-item .portfolio-item-permalink, .read-more-link, .blog-item .read-more, .blog-item-details a:hover, .author-link, #reply-title small a, #respond .form-submit input:hover, span.dropcap2, .spb_divider.go_to_top a, love-it-wrapper:hover .love-it, .love-it-wrapper:hover span.love-count, .love-it-wrapper .loved, .comments-likes .loved span.love-count, .comments-likes a:hover i, .comments-likes .love-it-wrapper:hover a i, .comments-likes a:hover span, .love-it-wrapper:hover a i, .item-link:hover, #header-translation p a, #swift-slider .flex-caption-large h1 a:hover, .wooslider .slide-title a:hover, .caption-details-inner .details span > a, .caption-details-inner .chart span, .caption-details-inner .chart i, #swift-slider .flex-caption-large .chart i, #breadcrumbs a:hover, .ui-widget-content a:hover, .yith-wcwl-add-button a:hover, #product-img-slider li a.zoom:hover, .woocommerce .star-rating span, .article-body-wrap .share-links a:hover, ul.member-contact li a:hover, .price ins, .bag-product a.remove:hover, .bag-product-title a:hover, #back-to-top:hover,  ul.member-contact li a:hover, .fw-video-link-image:hover i, .ajax-search-results .all-results:hover, .search-result h5 a:hover .ui-state-default a:hover {color: '.$link_hover_color.';}';
+			echo 'a:hover, a:focus, #sidebar a:hover, .pagination-wrap a:hover, .carousel-nav a:hover, .portfolio-pagination div:hover > i, #footer a:hover, #copyright a, .beam-me-up a:hover span, .portfolio-item .portfolio-item-permalink, .read-more-link, .blog-item .read-more, .blog-item-details a:hover, .author-link, #reply-title small a, #respond .form-submit input:hover, span.dropcap2, .spb_divider.go_to_top a, love-it-wrapper:hover .love-it, .love-it-wrapper:hover span.love-count, .love-it-wrapper .loved, .comments-likes .loved span.love-count, .comments-likes a:hover i, .comments-likes .love-it-wrapper:hover a i, .comments-likes a:hover span, .love-it-wrapper:hover a i, .item-link:hover, #header-translation p a, #swift-slider .flex-caption-large h1 a:hover, .wooslider .slide-title a:hover, .caption-details-inner .details span > a, .caption-details-inner .chart span, .caption-details-inner .chart i, #swift-slider .flex-caption-large .chart i, #breadcrumbs a:hover, .ui-widget-content a:hover, .yith-wcwl-add-button a:hover, #product-img-slider li a.zoom:hover, .woocommerce .star-rating span, .article-body-wrap .share-links a:hover, ul.member-contact li a:hover, .price ins, .bag-product a.remove:hover, .bag-product-title a:hover, #back-to-top:hover,  ul.member-contact li a:hover, .fw-video-link-image:hover i, .ajax-search-results .all-results:hover, .search-result h5 a:hover .ui-state-default a:hover {color: '.$link_hover_color.';}';
 			echo '.carousel-wrap > a:hover, #mobile-menu ul li:hover > a {color: '.$accent_color.'!important;}';
 			echo '.comments-likes a:hover span, .comments-likes a:hover i {color: '.$accent_color.'!important;}';
 			echo '.read-more i:before, .read-more em:before {color: '.$accent_color.';}';
@@ -787,7 +766,7 @@
 			echo 'input[type="text"], input[type="password"], input[type="email"], input[type="tel"], textarea, select {border-color: '.$section_divide_color.';background: '.$alt_bg_color.';}';
 			echo 'textarea:focus, input:focus {border-color: #999!important;}';
 			echo '.modal-header {background: '.$alt_bg_color.';}';
-			echo '.recent-post .post-details, .team-member .team-member-position, .portfolio-item h5.portfolio-subtitle, .mini-items .blog-item-details, .standard-post-content .blog-item-details, .masonry-items .blog-item .blog-item-details, .jobs > li .job-date, .search-item-content time, .search-item-content span, .blog-item-details a, .portfolio-details-wrap .date {color: '.$body_alt_text_color.';}';
+			echo '.recent-post .post-details, .team-member .team-member-position, .portfolio-item h5.portfolio-subtitle, .mini-items .blog-item-details, .standard-post-content .blog-item-details, .masonry-items .blog-item .blog-item-details, .jobs > li .job-date, .search-item-content time, .search-item-content span, .blog-item-details a, .portfolio-details-wrap .date,  .portfolio-details-wrap .tags-link-wrap {color: '.$body_alt_text_color.';}';
 			echo 'ul.bar-styling li.facebook > a:hover {color: #fff!important;background: #3b5998;border-color: #3b5998;}';
 			echo 'ul.bar-styling li.twitter > a:hover {color: #fff!important;background: #4099FF;border-color: #4099FF;}';
 			echo 'ul.bar-styling li.google-plus > a:hover {color: #fff!important;background: #d34836;border-color: #d34836;}';
@@ -796,7 +775,7 @@
 			// HEADER STYLES
 			echo '#header-search input, #header-search a, .super-search-close, #header-search i.ss-search {color: '.$header_aux_text_color.';}';
 			echo '#header-search a:hover, .super-search-close:hover {color: '.$accent_color.';}';
-			echo '.sf-super-search, .spb_supersearch_widget.alt-bg {background-color: '.$secondary_accent_color.';}';
+			echo '.sf-super-search, .spb_supersearch_widget.asset-bg {background-color: '.$secondary_accent_color.';}';
 			echo '.sf-super-search .search-options .ss-dropdown > span, .sf-super-search .search-options input {color: '.$accent_color.'; border-bottom-color: '.$accent_color.';}';
 			echo '.sf-super-search .search-options .ss-dropdown ul li .fa-check {color: '.$accent_color.';}';
 			echo '.sf-super-search-go:hover, .sf-super-search-close:hover { background-color: '.$accent_color.'; border-color: '.$accent_color.'; color: '.$accent_alt_color.';}';
@@ -811,7 +790,7 @@
 			echo '#header-section:before, #header .is-sticky .sticky-header, #header-section .is-sticky #main-nav.sticky-header, #header-section.header-6 .is-sticky #header.sticky-header, .ajax-search-wrap {background-color: '.$header_bg_color1.';background: -webkit-gradient(linear, 0% 0%, 0% 100%, from('.$header_bg_color2.'), to('.$header_bg_color1.'));background: -webkit-linear-gradient(top, '.$header_bg_color1.', '.$header_bg_color2.');background: -moz-linear-gradient(top, '.$header_bg_color1.', '.$header_bg_color2.');background: -ms-linear-gradient(top, '.$header_bg_color1.', '.$header_bg_color2.');background: -o-linear-gradient(top, '.$header_bg_color1.', '.$header_bg_color2.');}';
 			echo '#logo img {padding-top: '.$logo_spacing_top.'px;padding-bottom: '.$logo_spacing_bottom.'px;}';
 			if ($logo_width > 0) {
-			echo '#logo.logo-left, #logo img, #logo img.retina {width: '.$logo_width.'px;}';
+			echo '#logo img, #logo img.retina {width: '.$logo_width.'px;}';
 			}
 			if ($logo_height && $logo_height > 0) {
 			$logo_row_height = $logo_height + 20;
@@ -861,7 +840,7 @@
 			echo 'nav .menu ul.sub-menu li {border-bottom-color: '.$nav_divider_color.';border-bottom-style: '.$nav_divider.';}';
 			echo 'nav.mega-menu li .mega .sub .sub-menu, nav.mega-menu li .mega .sub .sub-menu li, nav.mega-menu li .sub-container.non-mega li, nav.mega-menu li .sub li.mega-hdr {border-top-color: '.$nav_divider_color.';border-top-style: '.$nav_divider.';}';
 			echo 'nav.mega-menu li .sub li.mega-hdr {border-right-color: '.$nav_divider_color.';border-right-style: '.$nav_divider.';}';
-			echo 'nav .menu > li.menu-item > a, #menubar-controls a, nav.search-nav .menu>li>a, .naked-header .is-sticky nav .menu > li a {color: '.$nav_text_color.';}';
+			echo 'nav .menu > li.menu-item > a, nav .menu > li.menu-item.indicator-disabled > a, #menubar-controls a, nav.search-nav .menu>li>a, .naked-header .is-sticky nav .menu > li a {color: '.$nav_text_color.';}';
 			echo 'nav .menu > li.menu-item:hover > a {color: '.$nav_text_hover_color.';}';
 			echo 'nav .menu ul.sub-menu li.menu-item > a, nav .menu ul.sub-menu li > span, #top-bar nav .menu ul li > a {color: '.$nav_sm_text_color.';}';
 			echo 'nav .menu ul.sub-menu li.menu-item:hover > a {color: '.$nav_sm_text_hover_color.'!important; background: '.$nav_sm_bg_hover_color.';}';
@@ -957,7 +936,7 @@
 			echo '.slideout-filter ul li a:hover {color: '.$accent_color.';}';
 			echo '.slideout-filter ul li.selected a {color: '.$accent_alt_color.';background: '.$accent_color.';}';
 			echo 'ul.portfolio-filter-tabs li.selected a {background: '.$alt_bg_color.';}';
-			echo '.filter-slide-wrap {background-color: #222;}';
+			echo '.spb_blog_widget .filter-wrap {background-color: #222;}';
 			echo '.portfolio-item {border-bottom-color: '.$section_divide_color.';}';
 			echo '.masonry-items .portfolio-item-details {background: '.$alt_bg_color.';}';
 			echo '.spb_portfolio_carousel_widget .portfolio-item {background: '.$inner_page_bg_color.';}';
@@ -1049,7 +1028,7 @@
 			echo '.sf-icon-box-animated .back.sf-icon-icon-four, .sf-icon-box-animated .back.sf-icon-icon-four h3 {color: '.$icon_four_alt_color.'!important;}';
 			echo 'span.dropcap3 {background: #000;color: #fff;}';
 			echo 'span.dropcap4 {color: #fff;}';
-			echo '.spb_divider, .spb_divider.go_to_top_icon1, .spb_divider.go_to_top_icon2, .testimonials > li, .jobs > li, .spb_impact_text, .tm-toggle-button-wrap, .tm-toggle-button-wrap a, .portfolio-details-wrap, .spb_divider.go_to_top a, .impact-text-wrap, .widget_search form input, .alt-bg.spb_divider {border-color: '.$section_divide_color.';}';
+			echo '.spb_divider, .spb_divider.go_to_top_icon1, .spb_divider.go_to_top_icon2, .testimonials > li, .jobs > li, .spb_impact_text, .tm-toggle-button-wrap, .tm-toggle-button-wrap a, .portfolio-details-wrap, .spb_divider.go_to_top a, .impact-text-wrap, .widget_search form input, .asset-bg.spb_divider {border-color: '.$section_divide_color.';}';
 			echo '.spb_divider.go_to_top_icon1 a, .spb_divider.go_to_top_icon2 a {background: '.$inner_page_bg_color.';}';
 			echo '.spb_tabs .ui-tabs .ui-tabs-panel, .spb_content_element .ui-tabs .ui-tabs-nav, .ui-tabs .ui-tabs-nav li {border-color: '.$section_divide_color.';}';
 			echo '.spb_tabs .ui-tabs .ui-tabs-panel, .ui-tabs .ui-tabs-nav li.ui-tabs-active a {background: '.$inner_page_bg_color.'!important;}';
@@ -1087,7 +1066,7 @@
 			echo '.progress .bar {background-color: '.$accent_color.';}';
 			echo '.progress.standard .bar {background: '.$accent_color.';}';
 			echo '.progress-bar-wrap .progress-value {color: '.$accent_color.';}';
-			echo '.alt-bg-detail {background:'.$inner_page_bg_color.';border-color:'.$section_divide_color.';}';
+			echo '.asset-bg-detail {background:'.$inner_page_bg_color.';border-color:'.$section_divide_color.';}';
 
 			// FOOTER STYLES
 			echo '#footer {background: '.$footer_bg_color.';}';
@@ -1118,9 +1097,12 @@
 			echo 'ul.products li.product .product-details .posted_in a {color: '.$body_alt_text_color.';}';
 			echo '.woocommerce ul.products li.product figure figcaption .shop-actions > a:hover, ul.products li.product .product-details .posted_in a:hover {color: '.$accent_color.';}';
 			echo '.woocommerce form.cart button.single_add_to_cart_button, .woocommerce p.cart a.single_add_to_cart_button, .woocommerce input[name="save_account_details"] { background: '.$alt_bg_color.'!important; color: '.$body_text_color.' ;}'. "\n";
+			echo '.woocommerce form.cart button.single_add_to_cart_button:disabled, .woocommerce form.cart button.single_add_to_cart_button:disabled[disabled] { background: '.$alt_bg_color.'!important; color: '.$body_text_color.' ;}'. "\n";
 			echo '.woocommerce form.cart button.single_add_to_cart_button:hover, .woocommerce .button.checkout-button, .woocommerce .wc-proceed-to-checkout > a.checkout-button { background: '.$accent_color.'!important; color: '.$accent_alt_color.' ;}'. "\n";
 			echo '.woocommerce p.cart a.single_add_to_cart_button:hover, .woocommerce .button.checkout-button:hover, .woocommerce .wc-proceed-to-checkout > a.checkout-button:hover {background: '.$secondary_accent_color.'!important; color: '.$accent_color.'!important;}';
 			echo '.woocommerce table.shop_table tr td.product-remove .remove:hover, .woocommerce .coupon input.apply-coupon:hover, .woocommerce .shipping-calculator-form .update-totals-button button:hover, .woocommerce .quantity .plus:hover, .woocommerce .quantity .minus:hover, .add_review a:hover, .woocommerce #review_form #respond .form-submit input:hover, .lost_reset_password p.form-row input[type="submit"]:hover, .track_order p.form-row input[type="submit"]:hover, .change_password_form p input[type="submit"]:hover, .woocommerce table.my_account_orders .order-actions .button:hover, .woocommerce .widget_price_filter .price_slider_amount .button:hover, .woocommerce.widget .buttons a:hover, .woocommerce .wishlist_table tr td.product-add-to-cart a:hover, .woocommerce input.button[name="save_address"]:hover, .woocommerce input[name="apply_coupon"]:hover, .woocommerce .cart input[name="update_cart"]:hover, .woocommerce form.register input[type="submit"]:hover, .woocommerce form.cart button.single_add_to_cart_button:hover, .woocommerce form.cart .yith-wcwl-add-to-wishlist a:hover, .load-more-btn:hover, .woocommerce-account input[name="change_password"]:hover {background: '.$accent_color.'; color: '.$accent_alt_color.';}';
+			echo '.woocommerce-MyAccount-navigation li {border-color: '.$section_divide_color.';}';
+			echo '.woocommerce-MyAccount-navigation li.is-active a, .woocommerce-MyAccount-navigation li a:hover {color: '.$body_text_color.';}';
 			echo '.woocommerce #account_details .login, .woocommerce #account_details .login h4.lined-heading span, .my-account-login-wrap .login-wrap, .my-account-login-wrap .login-wrap h4.lined-heading span, .woocommerce div.product form.cart table div.quantity {background: '.$alt_bg_color.';}';
 			echo '.woocommerce .help-bar ul li a:hover, .woocommerce .continue-shopping:hover, .woocommerce .address .edit-address:hover, .my_account_orders td.order-number a:hover, .product_meta a.inline:hover { border-bottom-color: '.$accent_color.';}';
 			echo '.woocommerce .order-info, .woocommerce .order-info mark {background: '.$accent_color.'; color: '.$accent_alt_color.';}';
@@ -1154,129 +1136,129 @@
 			echo '#bbpress-forums fieldset.bbp-form button[type="submit"]:hover, #bbp_user_edit_submit:hover {background: '.$accent_color.'; color: '.$accent_alt_color.';}';
 
 			// ASSET BACKGROUND STYLES
-			echo '.alt-bg {border-color: '.$section_divide_color.';}';
-			echo '.alt-bg.alt-one {background-color: '.$alt_one_bg_color.';}';
+			echo '.asset-bg {border-color: '.$section_divide_color.';}';
+			echo '.asset-bg.alt-one {background-color: '.$alt_one_bg_color.';}';
 			if (isset($options['alt_one_bg_image']) && $alt_one_bg_image != "") {
 				if ($alt_one_bg_image_size == "cover") {
-					echo '.alt-bg.alt-one {background-image: url('.$alt_one_bg_image.'); background-repeat: no-repeat; background-position: center center; background-size:cover;}';
+					echo '.asset-bg.alt-one {background-image: url('.$alt_one_bg_image.'); background-repeat: no-repeat; background-position: center center; background-size:cover;}';
 				} else {
-					echo '.alt-bg.alt-one {background-image: url('.$alt_one_bg_image.'); background-repeat: repeat; background-position: center top; background-size:auto;}';
+					echo '.asset-bg.alt-one {background-image: url('.$alt_one_bg_image.'); background-repeat: repeat; background-position: center top; background-size:auto;}';
 				}
 			}
-			echo '.alt-bg.alt-one, .alt-bg.alt-one h1, .alt-bg.alt-one h2, .alt-bg.alt-one h3, .alt-bg.alt-one h3, .alt-bg.alt-one h4, .alt-bg.alt-one h5, .alt-bg.alt-one h6, .alt-one .carousel-wrap > a {color: '.$alt_one_text_color.';}';
-			echo '.alt-bg.alt-one h4.spb-center-heading span:before, .alt-bg.alt-one h4.spb-center-heading span:after {border-color: '.$alt_one_text_color.';}';
-			echo '.alt-one.full-width-text:after {border-top-color:'.$alt_one_bg_color.';}';
+			echo '.asset-bg.alt-one, .asset-bg .alt-one, .asset-bg.alt-one h1, .asset-bg.alt-one h2, .asset-bg.alt-one h3, .asset-bg.alt-one h3, .asset-bg.alt-one h4, .asset-bg.alt-one h5, .asset-bg.alt-one h6, .alt-one .carousel-wrap > a {color: '.$alt_one_text_color.';}';
+			echo '.asset-bg.alt-one h4.spb-center-heading span:before, .asset-bg.alt-one h4.spb-center-heading span:after {border-color: '.$alt_one_text_color.';}';
+			echo '.alt-one .full-width-text:after {border-top-color:'.$alt_one_bg_color.';}';
 			echo '.alt-one h4.spb-text-heading, .alt-one h4.spb-heading {border-bottom-color:'.$alt_one_text_color.';}';
-			echo '.alt-bg.alt-two {background-color: '.$alt_two_bg_color.';}';
+			echo '.asset-bg.alt-two {background-color: '.$alt_two_bg_color.';}';
 			if (isset($options['alt_two_bg_image']) && $alt_two_bg_image != "") {
 				if ($alt_two_bg_image_size == "cover") {
-					echo '.alt-bg.alt-two {background-image: url('.$alt_two_bg_image.'); background-repeat: no-repeat; background-position: center center; background-size:cover;}';
+					echo '.asset-bg.alt-two {background-image: url('.$alt_two_bg_image.'); background-repeat: no-repeat; background-position: center center; background-size:cover;}';
 				} else {
-					echo '.alt-bg.alt-two {background-image: url('.$alt_two_bg_image.'); background-repeat: repeat; background-position: center top; background-size:auto;}';
+					echo '.asset-bg.alt-two {background-image: url('.$alt_two_bg_image.'); background-repeat: repeat; background-position: center top; background-size:auto;}';
 				}
 			}
-			echo '.alt-bg.alt-two, .alt-bg.alt-two h1, .alt-bg.alt-two h2, .alt-bg.alt-two h3, .alt-bg.alt-two h3, .alt-bg.alt-two h4, .alt-bg.alt-two h5, .alt-bg.alt-two h6, .alt-two .carousel-wrap > a {color: '.$alt_two_text_color.';}';
-			echo '.alt-bg.alt-two h4.spb-center-heading span:before, .alt-bg.alt-two h4.spb-center-heading span:after {border-color: '.$alt_two_text_color.';}';
-			echo '.alt-two.full-width-text:after {border-top-color:'.$alt_two_bg_color.';}';
+			echo '.asset-bg.alt-two, .asset-bg .alt-two, .asset-bg.alt-two h1, .asset-bg.alt-two h2, .asset-bg.alt-two h3, .asset-bg.alt-two h3, .asset-bg.alt-two h4, .asset-bg.alt-two h5, .asset-bg.alt-two h6, .alt-two .carousel-wrap > a {color: '.$alt_two_text_color.';}';
+			echo '.asset-bg.alt-two h4.spb-center-heading span:before, .asset-bg.alt-two h4.spb-center-heading span:after {border-color: '.$alt_two_text_color.';}';
+			echo '.alt-two .full-width-text:after {border-top-color:'.$alt_two_bg_color.';}';
 			echo '.alt-two h4.spb-text-heading, .alt-two h4.spb-heading {border-bottom-color:'.$alt_two_text_color.';}';
-			echo '.alt-bg.alt-three {background-color: '.$alt_three_bg_color.';}';
+			echo '.asset-bg.alt-three {background-color: '.$alt_three_bg_color.';}';
 			if (isset($options['alt_three_bg_image']) && $alt_three_bg_image != "") {
 				if ($alt_three_bg_image_size == "cover") {
-					echo '.alt-bg.alt-three {background-image: url('.$alt_three_bg_image.'); background-repeat: no-repeat; background-position: center center; background-size:cover;}';
+					echo '.asset-bg.alt-three {background-image: url('.$alt_three_bg_image.'); background-repeat: no-repeat; background-position: center center; background-size:cover;}';
 				} else {
-					echo '.alt-bg.alt-three {background-image: url('.$alt_three_bg_image.'); background-repeat: repeat; background-position: center top; background-size:auto;}';
+					echo '.asset-bg.alt-three {background-image: url('.$alt_three_bg_image.'); background-repeat: repeat; background-position: center top; background-size:auto;}';
 				}
 			}
-			echo '.alt-bg.alt-three, .alt-bg.alt-three h1, .alt-bg.alt-three h2, .alt-bg.alt-three h3, .alt-bg.alt-three h3, .alt-bg.alt-three h4, .alt-bg.alt-three h5, .alt-bg.alt-three h6, .alt-three .carousel-wrap > a {color: '.$alt_three_text_color.';}';
-			echo '.alt-bg.alt-three h4.spb-center-heading span:before, .alt-bg.alt-three h4.spb-center-heading span:after {border-color: '.$alt_three_text_color.';}';
-			echo '.alt-three.full-width-text:after {border-top-color:'.$alt_three_bg_color.';}';
+			echo '.asset-bg.alt-three, .asset-bg .alt-three, .asset-bg.alt-three h1, .asset-bg.alt-three h2, .asset-bg.alt-three h3, .asset-bg.alt-three h3, .asset-bg.alt-three h4, .asset-bg.alt-three h5, .asset-bg.alt-three h6, .alt-three .carousel-wrap > a {color: '.$alt_three_text_color.';}';
+			echo '.asset-bg.alt-three h4.spb-center-heading span:before, .asset-bg.alt-three h4.spb-center-heading span:after {border-color: '.$alt_three_text_color.';}';
+			echo '.alt-three .full-width-text:after {border-top-color:'.$alt_three_bg_color.';}';
 			echo '.alt-three h4.spb-text-heading, .alt-three h4.spb-heading {border-bottom-color:'.$alt_three_text_color.';}';
-			echo '.alt-bg.alt-four {background-color: '.$alt_four_bg_color.';}';
+			echo '.asset-bg.alt-four {background-color: '.$alt_four_bg_color.';}';
 			if (isset($options['alt_four_bg_image']) && $alt_four_bg_image != "") {
 				if ($alt_four_bg_image_size == "cover") {
-					echo '.alt-bg.alt-four {background-image: url('.$alt_four_bg_image.'); background-repeat: no-repeat; background-position: center center; background-size:cover;}';
+					echo '.asset-bg.alt-four {background-image: url('.$alt_four_bg_image.'); background-repeat: no-repeat; background-position: center center; background-size:cover;}';
 				} else {
-					echo '.alt-bg.alt-four {background-image: url('.$alt_four_bg_image.'); background-repeat: repeat; background-position: center top; background-size:auto;}';
+					echo '.asset-bg.alt-four {background-image: url('.$alt_four_bg_image.'); background-repeat: repeat; background-position: center top; background-size:auto;}';
 				}
 			}
-			echo '.alt-bg.alt-four, .alt-bg.alt-four h1, .alt-bg.alt-four h2, .alt-bg.alt-four h3, .alt-bg.alt-four h3, .alt-bg.alt-four h4, .alt-bg.alt-four h5, .alt-bg.alt-four h6, .alt-four .carousel-wrap > a {color: '.$alt_four_text_color.';}';
-			echo '.alt-bg.alt-four h4.spb-center-heading span:before, .alt-bg.alt-four h4.spb-center-heading span:after {border-color: '.$alt_four_text_color.';}';
-			echo '.alt-four.full-width-text:after {border-top-color:'.$alt_four_bg_color.';}';
+			echo '.asset-bg.alt-four, .asset-bg .alt-four, .asset-bg.alt-four h1, .asset-bg.alt-four h2, .asset-bg.alt-four h3, .asset-bg.alt-four h3, .asset-bg.alt-four h4, .asset-bg.alt-four h5, .asset-bg.alt-four h6, .alt-four .carousel-wrap > a {color: '.$alt_four_text_color.';}';
+			echo '.asset-bg.alt-four h4.spb-center-heading span:before, .asset-bg.alt-four h4.spb-center-heading span:after {border-color: '.$alt_four_text_color.';}';
+			echo '.alt-four .full-width-text:after {border-top-color:'.$alt_four_bg_color.';}';
 			echo '.alt-four h4.spb-text-heading, .alt-four h4.spb-heading {border-bottom-color:'.$alt_four_text_color.';}';
-			echo '.alt-bg.alt-five {background-color: '.$alt_five_bg_color.';}';
+			echo '.asset-bg.alt-five {background-color: '.$alt_five_bg_color.';}';
 			if (isset($options['alt_five_bg_image']) && $alt_five_bg_image != "") {
 				if ($alt_five_bg_image_size == "cover") {
-					echo '.alt-bg.alt-five {background-image: url('.$alt_five_bg_image.'); background-repeat: no-repeat; background-position: center center; background-size:cover;}';
+					echo '.asset-bg.alt-five {background-image: url('.$alt_five_bg_image.'); background-repeat: no-repeat; background-position: center center; background-size:cover;}';
 				} else {
-					echo '.alt-bg.alt-five {background-image: url('.$alt_five_bg_image.'); background-repeat: repeat; background-position: center top; background-size:auto;}';
+					echo '.asset-bg.alt-five {background-image: url('.$alt_five_bg_image.'); background-repeat: repeat; background-position: center top; background-size:auto;}';
 				}
 			}
-			echo '.alt-bg.alt-five, .alt-bg.alt-five h1, .alt-bg.alt-five h2, .alt-bg.alt-five h3, .alt-bg.alt-five h3, .alt-bg.alt-five h4, .alt-bg.alt-five h5, .alt-bg.alt-five h6, .alt-five .carousel-wrap > a {color: '.$alt_five_text_color.';}';
-			echo '.alt-bg.alt-five h4.spb-center-heading span:before, .alt-bg.alt-five h4.spb-center-heading span:after {border-color: '.$alt_five_text_color.';}';
-			echo '.alt-five.full-width-text:after {border-top-color:'.$alt_five_bg_color.';}';
+			echo '.asset-bg.alt-five, .asset-bg .alt-five, .asset-bg.alt-five h1, .asset-bg.alt-five h2, .asset-bg.alt-five h3, .asset-bg.alt-five h3, .asset-bg.alt-five h4, .asset-bg.alt-five h5, .asset-bg.alt-five h6, .alt-five .carousel-wrap > a {color: '.$alt_five_text_color.';}';
+			echo '.asset-bg.alt-five h4.spb-center-heading span:before, .asset-bg.alt-five h4.spb-center-heading span:after {border-color: '.$alt_five_text_color.';}';
+			echo '.alt-five .full-width-text:after {border-top-color:'.$alt_five_bg_color.';}';
 			echo '.alt-five h4.spb-text-heading, .alt-five h4.spb-heading {border-bottom-color:'.$alt_five_text_color.';}';
-			echo '.alt-bg.alt-six {background-color: '.$alt_six_bg_color.';}';
+			echo '.asset-bg.alt-six {background-color: '.$alt_six_bg_color.';}';
 			if (isset($options['alt_six_bg_image']) && $alt_six_bg_image != "") {
 				if ($alt_six_bg_image_size == "cover") {
-					echo '.alt-bg.alt-six {background-image: url('.$alt_six_bg_image.'); background-repeat: no-repeat; background-position: center center; background-size:cover;}';
+					echo '.asset-bg.alt-six {background-image: url('.$alt_six_bg_image.'); background-repeat: no-repeat; background-position: center center; background-size:cover;}';
 				} else {
-					echo '.alt-bg.alt-six {background-image: url('.$alt_six_bg_image.'); background-repeat: repeat; background-position: center top; background-size:auto;}';
+					echo '.asset-bg.alt-six {background-image: url('.$alt_six_bg_image.'); background-repeat: repeat; background-position: center top; background-size:auto;}';
 				}
 			}
-			echo '.alt-bg.alt-six, .alt-bg.alt-six h1, .alt-bg.alt-six h2, .alt-bg.alt-six h3, .alt-bg.alt-six h3, .alt-bg.alt-six h4, .alt-bg.alt-six h5, .alt-bg.alt-six h6, .alt-six .carousel-wrap > a {color: '.$alt_six_text_color.';}';
-			echo '.alt-bg.alt-six h4.spb-center-heading span:before, .alt-bg.alt-six h4.spb-center-heading span:after {border-color: '.$alt_six_text_color.';}';
-			echo '.alt-six.full-width-text:after {border-top-color:'.$alt_six_bg_color.';}';
+			echo '.asset-bg.alt-six, .asset-bg .alt-six, .asset-bg.alt-six h1, .asset-bg.alt-six h2, .asset-bg.alt-six h3, .asset-bg.alt-six h3, .asset-bg.alt-six h4, .asset-bg.alt-six h5, .asset-bg.alt-six h6, .alt-six .carousel-wrap > a {color: '.$alt_six_text_color.';}';
+			echo '.asset-bg.alt-six h4.spb-center-heading span:before, .asset-bg.alt-six h4.spb-center-heading span:after {border-color: '.$alt_six_text_color.';}';
+			echo '.alt-six .full-width-text:after {border-top-color:'.$alt_six_bg_color.';}';
 			echo '.alt-six h4.spb-text-heading, .alt-six h4.spb-heading {border-bottom-color:'.$alt_six_text_color.';}';
-			echo '.alt-bg.alt-seven {background-color: '.$alt_seven_bg_color.';}';
+			echo '.asset-bg.alt-seven {background-color: '.$alt_seven_bg_color.';}';
 			if (isset($options['alt_seven_bg_image']) && $alt_seven_bg_image != "") {
 				if ($alt_seven_bg_image_size == "cover") {
-					echo '.alt-bg.alt-seven {background-image: url('.$alt_seven_bg_image.'); background-repeat: no-repeat; background-position: center center; background-size:cover;}';
+					echo '.asset-bg.alt-seven {background-image: url('.$alt_seven_bg_image.'); background-repeat: no-repeat; background-position: center center; background-size:cover;}';
 				} else {
-					echo '.alt-bg.alt-seven {background-image: url('.$alt_seven_bg_image.'); background-repeat: repeat; background-position: center top; background-size:auto;}';
+					echo '.asset-bg.alt-seven {background-image: url('.$alt_seven_bg_image.'); background-repeat: repeat; background-position: center top; background-size:auto;}';
 				}
 			}
-			echo '.alt-bg.alt-seven, .alt-bg.alt-seven h1, .alt-bg.alt-seven h2, .alt-bg.alt-seven h3, .alt-bg.alt-seven h3, .alt-bg.alt-seven h4, .alt-bg.alt-seven h5, .alt-bg.alt-seven h6, .alt-seven .carousel-wrap > a {color: '.$alt_seven_text_color.';}';
-			echo '.alt-bg.alt-seven h4.spb-center-heading span:before, .alt-bg.alt-seven h4.spb-center-heading span:after {border-color: '.$alt_seven_text_color.';}';
-			echo '.alt-seven.full-width-text:after {border-top-color:'.$alt_seven_bg_color.';}';
+			echo '.asset-bg.alt-seven, .asset-bg .alt-seven, .asset-bg.alt-seven h1, .asset-bg.alt-seven h2, .asset-bg.alt-seven h3, .asset-bg.alt-seven h3, .asset-bg.alt-seven h4, .asset-bg.alt-seven h5, .asset-bg.alt-seven h6, .alt-seven .carousel-wrap > a {color: '.$alt_seven_text_color.';}';
+			echo '.asset-bg.alt-seven h4.spb-center-heading span:before, .asset-bg.alt-seven h4.spb-center-heading span:after {border-color: '.$alt_seven_text_color.';}';
+			echo '.alt-seven .full-width-text:after {border-top-color:'.$alt_seven_bg_color.';}';
 			echo '.alt-seven h4.spb-text-heading, .alt-seven h4.spb-heading {border-bottom-color:'.$alt_seven_text_color.';}';
-			echo '.alt-bg.alt-eight {background-color: '.$alt_eight_bg_color.';}';
+			echo '.asset-bg.alt-eight {background-color: '.$alt_eight_bg_color.';}';
 			if (isset($options['alt_eight_bg_image']) && $alt_eight_bg_image != "") {
 				if ($alt_eight_bg_image_size == "cover") {
-					echo '.alt-bg.alt-eight {background-image: url('.$alt_eight_bg_image.'); background-repeat: no-repeat; background-position: center center; background-size:cover;}';
+					echo '.asset-bg.alt-eight {background-image: url('.$alt_eight_bg_image.'); background-repeat: no-repeat; background-position: center center; background-size:cover;}';
 				} else {
-					echo '.alt-bg.alt-eight {background-image: url('.$alt_eight_bg_image.'); background-repeat: repeat; background-position: center top; background-size:auto;}';
+					echo '.asset-bg.alt-eight {background-image: url('.$alt_eight_bg_image.'); background-repeat: repeat; background-position: center top; background-size:auto;}';
 				}
 			}
-			echo '.alt-bg.alt-eight, .alt-bg.alt-eight h1, .alt-bg.alt-eight h2, .alt-bg.alt-eight h3, .alt-bg.alt-eight h3, .alt-bg.alt-eight h4, .alt-bg.alt-eight h5, .alt-bg.alt-eight h6, .alt-eight .carousel-wrap > a {color: '.$alt_eight_text_color.';}';
-			echo '.alt-bg.alt-eight h4.spb-center-heading span:before, .alt-bg.alt-eight h4.spb-center-heading span:after {border-color: '.$alt_eight_text_color.';}';
-			echo '.alt-eight.full-width-text:after {border-top-color:'.$alt_eight_bg_color.';}';
+			echo '.asset-bg.alt-eight, .asset-bg .alt-eight, .asset-bg.alt-eight h1, .asset-bg.alt-eight h2, .asset-bg.alt-eight h3, .asset-bg.alt-eight h3, .asset-bg.alt-eight h4, .asset-bg.alt-eight h5, .asset-bg.alt-eight h6, .alt-eight .carousel-wrap > a {color: '.$alt_eight_text_color.';}';
+			echo '.asset-bg.alt-eight h4.spb-center-heading span:before, .asset-bg.alt-eight h4.spb-center-heading span:after {border-color: '.$alt_eight_text_color.';}';
+			echo '.alt-eight .full-width-text:after {border-top-color:'.$alt_eight_bg_color.';}';
 			echo '.alt-eight h4.spb-text-heading, .alt-eight h4.spb-heading {border-bottom-color:'.$alt_eight_text_color.';}';
-			echo '.alt-bg.alt-nine {background-color: '.$alt_nine_bg_color.';}';
+			echo '.asset-bg.alt-nine {background-color: '.$alt_nine_bg_color.';}';
 			if (isset($options['alt_nine_bg_image']) && $alt_nine_bg_image != "") {
 				if ($alt_nine_bg_image_size == "cover") {
-					echo '.alt-bg.alt-nine {background-image: url('.$alt_nine_bg_image.'); background-repeat: no-repeat; background-position: center center; background-size:cover;}';
+					echo '.asset-bg.alt-nine {background-image: url('.$alt_nine_bg_image.'); background-repeat: no-repeat; background-position: center center; background-size:cover;}';
 				} else {
-					echo '.alt-bg.alt-nine {background-image: url('.$alt_nine_bg_image.'); background-repeat: repeat; background-position: center top; background-size:auto;}';
+					echo '.asset-bg.alt-nine {background-image: url('.$alt_nine_bg_image.'); background-repeat: repeat; background-position: center top; background-size:auto;}';
 				}
 			}
-			echo '.alt-bg.alt-nine, .alt-bg.alt-nine h1, .alt-bg.alt-nine h2, .alt-bg.alt-nine h3, .alt-bg.alt-nine h3, .alt-bg.alt-nine h4, .alt-bg.alt-nine h5, .alt-bg.alt-nine h6, .alt-nine .carousel-wrap > a {color: '.$alt_nine_text_color.';}';
-			echo '.alt-bg.alt-nine h4.spb-center-heading span:before, .alt-bg.alt-nine h4.spb-center-heading span:after {border-color: '.$alt_nine_text_color.';}';
-			echo '.alt-nine.full-width-text:after {border-top-color:'.$alt_nine_bg_color.';}';
+			echo '.asset-bg.alt-nine, .asset-bg .alt-nine, .asset-bg.alt-nine h1, .asset-bg.alt-nine h2, .asset-bg.alt-nine h3, .asset-bg.alt-nine h3, .asset-bg.alt-nine h4, .asset-bg.alt-nine h5, .asset-bg.alt-nine h6, .alt-nine .carousel-wrap > a {color: '.$alt_nine_text_color.';}';
+			echo '.asset-bg.alt-nine h4.spb-center-heading span:before, .asset-bg.alt-nine h4.spb-center-heading span:after {border-color: '.$alt_nine_text_color.';}';
+			echo '.alt-nine .full-width-text:after {border-top-color:'.$alt_nine_bg_color.';}';
 			echo '.alt-nine h4.spb-text-heading, .alt-nine h4.spb-heading {border-bottom-color:'.$alt_nine_text_color.';}';
-			echo '.alt-bg.alt-ten {background-color: '.$alt_ten_bg_color.';}';
+			echo '.asset-bg.alt-ten {background-color: '.$alt_ten_bg_color.';}';
 			if (isset($options['alt_ten_bg_image']) && $alt_ten_bg_image != "") {
 				if ($alt_ten_bg_image_size == "cover") {
-					echo '.alt-bg.alt-ten {background-image: url('.$alt_ten_bg_image.'); background-repeat: no-repeat; background-position: center center; background-size:cover;}';
+					echo '.asset-bg.alt-ten {background-image: url('.$alt_ten_bg_image.'); background-repeat: no-repeat; background-position: center center; background-size:cover;}';
 				} else {
-					echo '.alt-bg.alt-ten {background-image: url('.$alt_ten_bg_image.'); background-repeat: repeat; background-position: center top; background-size:auto;}';
+					echo '.asset-bg.alt-ten {background-image: url('.$alt_ten_bg_image.'); background-repeat: repeat; background-position: center top; background-size:auto;}';
 				}
 			}
-			echo '.alt-bg.alt-ten, .alt-bg.alt-ten h1, .alt-bg.alt-ten h2, .alt-bg.alt-ten h3, .alt-bg.alt-ten h3, .alt-bg.alt-ten h4, .alt-bg.alt-ten h5, .alt-bg.alt-ten h6, .alt-ten .carousel-wrap > a {color: '.$alt_ten_text_color.';}';
-			echo '.alt-bg.alt-ten h4.spb-center-heading span:before, .alt-bg.alt-ten h4.spb-center-heading span:after {border-color: '.$alt_ten_text_color.';}';
-			echo '.alt-ten.full-width-text:after {border-top-color:'.$alt_ten_bg_color.';}';
+			echo '.asset-bg.alt-ten, .asset-bg .alt-ten, .asset-bg.alt-ten h1, .asset-bg.alt-ten h2, .asset-bg.alt-ten h3, .asset-bg.alt-ten h3, .asset-bg.alt-ten h4, .asset-bg.alt-ten h5, .asset-bg.alt-ten h6, .alt-ten .carousel-wrap > a {color: '.$alt_ten_text_color.';}';
+			echo '.asset-bg.alt-ten h4.spb-center-heading span:before, .asset-bg.alt-ten h4.spb-center-heading span:after {border-color: '.$alt_ten_text_color.';}';
+			echo '.alt-ten .full-width-text:after {border-top-color:'.$alt_ten_bg_color.';}';
 			echo '.alt-ten h4.spb-text-heading, .alt-ten h4.spb-heading {border-bottom-color:'.$alt_ten_text_color.';}';
-			echo '.alt-bg.light-style, .alt-bg.light-style h1, .alt-bg.light-style h2, .alt-bg.light-style h3, .alt-bg.light-style h3, .alt-bg.light-style h4, .alt-bg.light-style h5, .alt-bg.light-style h6 {color: #fff!important;}';
-			echo '.alt-bg.dark-style, .alt-bg.dark-style h1, .alt-bg.dark-style h2, .alt-bg.dark-style h3, .alt-bg.dark-style h3, .alt-bg.dark-style h4, .alt-bg.dark-style h5, .alt-bg.dark-style h6 {color: #222!important;}';
+			echo '.asset-bg.light-style, .asset-bg.light-style h1, .asset-bg.light-style h2, .asset-bg.light-style h3, .asset-bg.light-style h3, .asset-bg.light-style h4, .asset-bg.light-style h5, .asset-bg.light-style h6 {color: #fff!important;}';
+			echo '.asset-bg.dark-style, .asset-bg.dark-style h1, .asset-bg.dark-style h2, .asset-bg.dark-style h3, .asset-bg.dark-style h3, .asset-bg.dark-style h4, .asset-bg.dark-style h5, .asset-bg.dark-style h6 {color: #222!important;}';
 
 			// PAGE BACKGROUND STYLES
 			if ($bg_image_url != "") {
@@ -1331,6 +1313,23 @@
 			$replace_with = 'nav .menu li {';
 			$fd_menu_output = str_replace("div {", $replace_with, $fontdeck_menu_font);
 			echo $fd_menu_output;
+			}
+			
+			// MOBILE ANIMATIONS
+			if ( $disable_mobile_animations ) {
+				echo '.mobile-browser .sf-animation, .apple-mobile-browser .sf-animation {
+					opacity: 1!important;
+					left: auto!important;
+					right: auto!important;
+					bottom: auto!important;
+					-webkit-transform: scale(1)!important;
+					-o-transform: scale(1)!important;
+					-moz-transform: scale(1)!important;
+					transform: scale(1)!important;
+				}
+				.mobile-browser .sf-animation.image-banner-content, .apple-mobile-browser .sf-animation.image-banner-content {
+					bottom: 50%!important;
+				}';
 			}
 
 			// RESPONSIVE STYLES

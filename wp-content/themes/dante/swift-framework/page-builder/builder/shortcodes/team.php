@@ -77,15 +77,16 @@ class SwiftPageBuilderShortcode_team extends SwiftPageBuilderShortcode {
 				$member_xing = sf_get_post_meta($post->ID, 'sf_team_member_xing', true);
 				$member_image = get_post_thumbnail_id();
 				$member_link = get_permalink();
-				   	
+				
 				$items .= '<li itemscope data-id="id-'. $count .'" class="clearfix team-member '.$item_class.'">';
 				
 				$img_url = wp_get_attachment_url( $member_image,'full' );
 				$image = sf_aq_resize( $img_url, $image_width, $image_height, true, false);
+				$image_alt = esc_attr( sf_get_post_meta($member_image, '_wp_attachment_image_alt', true) );
 				
 				$items .= '<figure class="gallery-style">';
 							if ($image) {
-								$items .= '<a href="'.get_permalink().'"><img itemprop="image" src="'.$image[0].'" width="'.$image[1].'" height="'.$image[2].'" /></a>';
+								$items .= '<a href="'.get_permalink().'"><img itemprop="image" src="'.$image[0].'" width="'.$image[1].'" height="'.$image[2].'" alt="'.$image_alt.'" /></a>';
 							}
 							
 				$items .= '<figcaption>';

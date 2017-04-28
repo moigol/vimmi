@@ -45,9 +45,9 @@ if(!class_exists('Redux_Options') ){
             $defaults['google_api_key'] = ''; // Must be defined for use with Google Webfonts field type
             $defaults['last_tab'] = '0';
             $defaults['menu_icon'] = "";
-            $defaults['menu_title'] = __('Options', Redux_TEXT_DOMAIN);
+            $defaults['menu_title'] = __('Options', 'swift-framework-admin');
             $defaults['page_icon'] = 'fa-themes';
-            $defaults['page_title'] = __('Options', Redux_TEXT_DOMAIN);
+            $defaults['page_title'] = __('Options', 'swift-framework-admin');
             $defaults['page_slug'] = '_options';
             $defaults['page_cap'] = 'manage_options';
             $defaults['page_type'] = 'menu';
@@ -60,7 +60,7 @@ if(!class_exists('Redux_Options') ){
             $defaults['admin_stylesheet'] = 'standard';
             $defaults['footer_credit'] = "";
             $defaults['help_tabs'] = array();
-            $defaults['help_sidebar'] = __('', Redux_TEXT_DOMAIN);
+            $defaults['help_sidebar'] = "";
 
 			// The defaults are set so it will preserve the old behavior.
 			$defaults['std_show'] = false; // If true, it shows the std value
@@ -232,8 +232,8 @@ if(!class_exists('Redux_Options') ){
                     if(true === $this->args['show_import_export']) {
                         add_submenu_page(
                             $this->args['page_slug'],
-                            __('Import / Export', Redux_TEXT_DOMAIN), 
-                            __('Import / Export', Redux_TEXT_DOMAIN), 
+                            __('Import / Export', 'swift-framework-admin'), 
+                            __('Import / Export', 'swift-framework-admin'), 
                             $this->args['page_cap'], 
                             $this->args['page_slug'] . '&tab=import_export_default', create_function('$a', "return null;")
                         );
@@ -252,8 +252,8 @@ if(!class_exists('Redux_Options') ){
                     if(true === $this->args['dev_mode']) {
                         add_submenu_page(
                             $this->args['page_slug'],
-                            __('Dev Mode Info', Redux_TEXT_DOMAIN), 
-                            __('Dev Mode Info', Redux_TEXT_DOMAIN), 
+                            __('Dev Mode Info', 'swift-framework-admin'), 
+                            __('Dev Mode Info', 'swift-framework-admin'), 
                             $this->args['page_cap'], 
                             $this->args['page_slug'] . '&tab=dev_mode_default', create_function('$a', "return null;")
                         );
@@ -344,7 +344,7 @@ if(!class_exists('Redux_Options') ){
                 true
 			);
 
-            wp_localize_script('redux-opts-js', 'redux_opts', array('reset_confirm' => __('Are you sure? You will lose all custom values.', Redux_TEXT_DOMAIN), 'opt_name' => $this->args['opt_name']));
+            wp_localize_script('redux-opts-js', 'redux_opts', array('reset_confirm' => __('Are you sure? You will lose all custom values.', 'swift-framework-admin'), 'opt_name' => $this->args['opt_name']));
         
             do_action('redux-opts-enqueue-' . $this->args['opt_name']);
 
@@ -629,22 +629,22 @@ if(!class_exists('Redux_Options') ){
             
             submit_button('', 'primary', '', false);
             echo ' &nbsp; ';
-            submit_button(__('Reset to Defaults', Redux_TEXT_DOMAIN), 'secondary', $this->args['opt_name'] . '[defaults]', false);
+            submit_button(__('Reset to Defaults', 'swift-framework-admin'), 'secondary', $this->args['opt_name'] . '[defaults]', false);
             echo '<div class="clear"></div><!--clearfix-->';
             echo '</div>';
 
             if(isset($_GET['settings-updated']) && $_GET['settings-updated'] == 'true' && get_transient('redux-opts-saved') == '1') {
                 if(isset($this->options['imported']) && $this->options['imported'] == 1) {
-                    echo '<div id="redux-opts-imported">' . apply_filters('redux-opts-imported-text-' . $this->args['opt_name'], __('<strong>Settings Imported!</strong>', Redux_TEXT_DOMAIN)) . '</div>';
+                    echo '<div id="redux-opts-imported">' . apply_filters('redux-opts-imported-text-' . $this->args['opt_name'], __('<strong>Settings Imported!</strong>', 'swift-framework-admin')) . '</div>';
                 } else {
-                    echo '<div id="redux-opts-save">' . apply_filters('redux-opts-saved-text-' . $this->args['opt_name'], __('<strong>Settings Saved!</strong>', Redux_TEXT_DOMAIN)).'</div>';
+                    echo '<div id="redux-opts-save">' . apply_filters('redux-opts-saved-text-' . $this->args['opt_name'], __('<strong>Settings Saved!</strong>', 'swift-framework-admin')).'</div>';
                 }
                 delete_transient('redux-opts-saved');
             }
 
-            echo '<div id="redux-opts-save-warn">' . apply_filters('redux-opts-changed-text-' . $this->args['opt_name'], __('<strong>Settings have changed, you should save them!</strong>', Redux_TEXT_DOMAIN)) . '</div>';
-            echo '<div id="redux-opts-field-errors">' . __('<strong><span></span> error(s) were found!</strong>', Redux_TEXT_DOMAIN) . '</div>';
-            echo '<div id="redux-opts-field-warnings">' . __('<strong><span></span> warning(s) were found!</strong>', Redux_TEXT_DOMAIN).'</div>';
+            echo '<div id="redux-opts-save-warn">' . apply_filters('redux-opts-changed-text-' . $this->args['opt_name'], __('<strong>Settings have changed, you should save them!</strong>', 'swift-framework-admin')) . '</div>';
+            echo '<div id="redux-opts-field-errors">' . __('<strong><span></span> error(s) were found!</strong>', 'swift-framework-admin') . '</div>';
+            echo '<div id="redux-opts-field-warnings">' . __('<strong><span></span> warning(s) were found!</strong>', 'swift-framework-admin').'</div>';
                 
             echo '<div class="clear"></div><!--clearfix-->';
                 
@@ -677,7 +677,7 @@ if(!class_exists('Redux_Options') ){
 					$icon_class = (!isset($this->args['import_icon_class'])) ? '' : ' ' . $this->args['import_icon_class'];
 					$icon = (!isset($this->args['import_icon'])) ? '<i class="fa-refresh' . $icon_class . '"></i>' : '<i class="fa-' . $this->args['import_icon'] . $icon_class . '"></i> ';
 				}
-                echo '<a href="javascript:void(0);" id="import_export_default_section_group_li_a" class="redux-opts-group-tab-link-a" data-rel="import_export_default">' . $icon . ' <span>' . __('Import / Export', Redux_TEXT_DOMAIN) . '</span></a>';
+                echo '<a href="javascript:void(0);" id="import_export_default_section_group_li_a" class="redux-opts-group-tab-link-a" data-rel="import_export_default">' . $icon . ' <span>' . __('Import / Export', 'swift-framework-admin') . '</span></a>';
                 echo '</li>';
 
                 echo '<li class="divide">&nbsp;</li>';
@@ -708,7 +708,7 @@ if(!class_exists('Redux_Options') ){
 					$icon_class = (!isset($this->args['dev_mode_icon_class'])) ? '' : ' ' . $this->args['dev_mode_icon_class'];
 					$icon = (!isset($this->args['dev_mode_icon'])) ? '<i class="fa-info-sign' . $icon_class . '"></i>' : '<i class="fa-' . $this->args['dev_mode_icon'] . $icon_class . '"></i> ';
 				}
-                echo '<a href="javascript:void(0);" id="dev_mode_default_section_group_li_a" class="redux-opts-group-tab-link-a custom-tab" data-rel="dev_mode_default">' . $icon . ' <span>' . __('Dev Mode Info', Redux_TEXT_DOMAIN) . '</span></a>';
+                echo '<a href="javascript:void(0);" id="dev_mode_default_section_group_li_a" class="redux-opts-group-tab-link-a custom-tab" data-rel="dev_mode_default">' . $icon . ' <span>' . __('Dev Mode Info', 'swift-framework-admin') . '</span></a>';
                 echo '</li>';
             }
 
@@ -726,14 +726,14 @@ if(!class_exists('Redux_Options') ){
             if(true === $this->args['show_import_export']) {
                 echo '<div id="import_export_default_section_group' . '" class="redux-opts-group-tab">';
 
-                echo '<h3>' . __('Import / Export Options', Redux_TEXT_DOMAIN) . '</h3>';
-                echo '<h4>' . __('Import Options', Redux_TEXT_DOMAIN) . '</h4>';
-                echo '<p><a href="javascript:void(0);" id="redux-opts-import-code-button" class="button-secondary">' . __('Import from file', Redux_TEXT_DOMAIN) . '</a> <a href="javascript:void(0);" id="redux-opts-import-link-button" class="button-secondary">' . __('Import from URL', Redux_TEXT_DOMAIN) . '</a></p>';
+                echo '<h3>' . __('Import / Export Options', 'swift-framework-admin') . '</h3>';
+                echo '<h4>' . __('Import Options', 'swift-framework-admin') . '</h4>';
+                echo '<p><a href="javascript:void(0);" id="redux-opts-import-code-button" class="button-secondary">' . __('Import from file', 'swift-framework-admin') . '</a> <a href="javascript:void(0);" id="redux-opts-import-link-button" class="button-secondary">' . __('Import from URL', 'swift-framework-admin') . '</a></p>';
 
                 echo '<div id="redux-opts-import-code-wrapper">';
 
                 echo '<div class="redux-opts-section-desc">';
-                echo '<p class="description" id="import-code-description">' . apply_filters('redux-opts-import-file-description', __('Input your backup file below and hit Import to restore your sites options from a backup.', Redux_TEXT_DOMAIN)) . '</p>';
+                echo '<p class="description" id="import-code-description">' . apply_filters('redux-opts-import-file-description', __('Input your backup file below and hit Import to restore your sites options from a backup.', 'swift-framework-admin')) . '</p>';
                 echo '</div>';
 
                 echo '<textarea id="import-code-value" name="' . $this->args['opt_name'] . '[import_code]" class="large-text" rows="8"></textarea>';
@@ -743,22 +743,22 @@ if(!class_exists('Redux_Options') ){
                 echo '<div id="redux-opts-import-link-wrapper">';
 
                 echo '<div class="redux-opts-section-desc">';
-                echo '<p class="description" id="import-link-description">' . apply_filters('redux-opts-import-link-description', __('Input the URL to another sites options set and hit Import to load the options from that site.', Redux_TEXT_DOMAIN)) . '</p>';
+                echo '<p class="description" id="import-link-description">' . apply_filters('redux-opts-import-link-description', __('Input the URL to another sites options set and hit Import to load the options from that site.', 'swift-framework-admin')) . '</p>';
                 echo '</div>';
 
                 echo '<input type="text" id="import-link-value" name="' . $this->args['opt_name'] . '[import_link]" class="large-text" value="" />';
 
                 echo '</div>';
 
-                echo '<p id="redux-opts-import-action"><input type="submit" id="redux-opts-import" name="' . $this->args['opt_name'] . '[import]" class="button-primary" value="' . __('Import', Redux_TEXT_DOMAIN) . '"> <span>' . apply_filters('redux-opts-import-warning', __('WARNING! This will overwrite any existing options, please proceed with caution!', Redux_TEXT_DOMAIN)) . '</span></p>';
+                echo '<p id="redux-opts-import-action"><input type="submit" id="redux-opts-import" name="' . $this->args['opt_name'] . '[import]" class="button-primary" value="' . __('Import', 'swift-framework-admin') . '"> <span>' . apply_filters('redux-opts-import-warning', __('WARNING! This will overwrite any existing options, please proceed with caution!', 'swift-framework-admin')) . '</span></p>';
                 echo '<div id="import_divide"></div>';
 
-                echo '<h4>' . __('Export Options', Redux_TEXT_DOMAIN) . '</h4>';
+                echo '<h4>' . __('Export Options', 'swift-framework-admin') . '</h4>';
                 echo '<div class="redux-opts-section-desc">';
-                echo '<p class="description">' . apply_filters('redux-opts-backup-description', __('Here you can copy/download your current option settings. Keep this safe as you can use it as a backup should anything go wrong, or you can use it to restore your settings on this site (or any other site).', Redux_TEXT_DOMAIN)).'</p>';
+                echo '<p class="description">' . apply_filters('redux-opts-backup-description', __('Here you can copy/download your current option settings. Keep this safe as you can use it as a backup should anything go wrong, or you can use it to restore your settings on this site (or any other site).', 'swift-framework-admin')).'</p>';
                 echo '</div>';
 
-                echo '<p><a href="javascript:void(0);" id="redux-opts-export-code-copy" class="button-secondary">' . __('Copy', Redux_TEXT_DOMAIN) . '</a> <a href="'.esc_url( add_query_arg(array('feed' => 'reduxopts-'.$this->args['opt_name'], 'action' => 'download_options', 'secret' => md5(AUTH_KEY.SECURE_AUTH_KEY)), site_url()) ).'" id="redux-opts-export-code-dl" class="button-primary">Download</a> <a href="javascript:void(0);" id="redux-opts-export-link" class="button-secondary">' . __('Copy Link', Redux_TEXT_DOMAIN) . '</a></p>';
+                echo '<p><a href="javascript:void(0);" id="redux-opts-export-code-copy" class="button-secondary">' . __('Copy', 'swift-framework-admin') . '</a> <a href="'.esc_url( add_query_arg(array('feed' => 'reduxopts-'.$this->args['opt_name'], 'action' => 'download_options', 'secret' => md5(AUTH_KEY.SECURE_AUTH_KEY)), site_url()) ).'" id="redux-opts-export-code-dl" class="button-primary">Download</a> <a href="javascript:void(0);" id="redux-opts-export-link" class="button-secondary">' . __('Copy Link', 'swift-framework-admin') . '</a></p>';
                 $backup_options = $this->options;
                 $backup_options['redux-opts-backup'] = '1';
                 $encoded_options = '###' . serialize($backup_options) . '###';
@@ -781,7 +781,7 @@ if(!class_exists('Redux_Options') ){
 
             if(true === $this->args['dev_mode']) {
                 echo '<div id="dev_mode_default_section_group' . '" class="redux-opts-group-tab">';
-                echo '<h3>' . __('Dev Mode Info', Redux_TEXT_DOMAIN) . '</h3>';
+                echo '<h3>' . __('Dev Mode Info', 'swift-framework-admin') . '</h3>';
                 echo '<div class="redux-opts-section-desc">';
                 echo '<textarea class="large-text" rows="24">' . print_r($this, true) . '</textarea>';
                 echo '</div>';
@@ -806,7 +806,7 @@ if(!class_exists('Redux_Options') ){
 
             submit_button('', 'primary', '', false);
             echo ' &nbsp; ';
-            submit_button(__('Reset to Defaults', Redux_TEXT_DOMAIN), 'secondary', $this->args['opt_name'] . '[defaults]', false);
+            submit_button(__('Reset to Defaults', 'swift-framework-admin'), 'secondary', $this->args['opt_name'] . '[defaults]', false);
             echo '<div class="clear"></div><!--clearfix-->';
             echo '</div>';
     
