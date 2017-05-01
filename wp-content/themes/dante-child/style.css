@@ -55,8 +55,13 @@ body,h1, h2, h3, h4, h5, .custom-caption p, span.dropcap1, span.dropcap2, span.d
 
 .spb_parallax_asset {box-shadow:none;}
 
+.spb_content_element {
+	margin-top: 0 !important;
+}
 
-
+.spb-row-container.spb-row-content-width.spb_parallax_asset.sf-parallax.parallax-window-height.spb_content_element.bg-type-cover.col-sm-12.mb0.remove-element-spacing {
+    height: auto !important;
+}
 
 /*mo custom*/
 
