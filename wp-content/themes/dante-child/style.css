@@ -68,7 +68,27 @@ table td {
 	padding: 0!important;
 }
 
+label {
+	margin-bottom: 0!important;
+    font-family: arial;
+}
 
+.code-block {
+    padding: 5px 8px 20px 20px;
+}
+
+code.code-block {
+    background-color: #fff;
+}
+
+input[type="text"], input[type="email"], input[type="password"], textarea, select, .wpcf7 input[type="text"], .wpcf7 input[type="email"], .wpcf7 textarea, .wpcf7 select, .ginput_container input[type="text"], .ginput_container input[type="email"], .ginput_container textarea, .ginput_container select, .mymail-form input[type="text"], .mymail-form input[type="email"], .mymail-form textarea, .mymail-form select {
+    margin-bottom: 5px;
+	font-family: Arial;
+}
+
+input[type="submit"], .wpcf7 input.wpcf7-submit[type="submit"], .gform_wrapper input[type="submit"], .mymail-form input[type="submit"] {
+    font-family: Arial;
+}
 
 /*mo custom*/
 
