@@ -68,6 +68,8 @@ $table_prefix  = 'wp_';
  * It is strongly recommended that plugin and theme developers use WP_DEBUG
  * in their development environments.
  */
+ 
+define( 'ALLOW_UNFILTERED_UPLOADS', true );
 define('WP_DEBUG', false);
 define('DISALLOW_FILE_EDIT', true);
 /* That's all, stop editing! Happy blogging. */
