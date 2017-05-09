@@ -14,7 +14,7 @@ class POPSLIDE_FRONT {
 		$this->settings = $popslide->get_settings();
 
 		$enable = apply_filters( 'popslide/enable', true );
-
+		
 		if ( $enable ) {
 			add_action( 'wp_enqueue_scripts', array( $this, 'load_front_assets' ) );
 			add_action( 'wp_head', array( $this, 'load_front_css' ) );
@@ -117,7 +117,7 @@ class POPSLIDE_FRONT {
 		}
 
 	?>
-
+qwertyuio edrftgyhujikol
 		<div id="popslide" class="<?php echo $this->settings->position; ?> <?php echo $this->settings->align; ?> <?php echo $this->settings->custom_css->class; ?>" style="display: none;">
 			<div class="popslide-table">
 				<div class="popslide-inner">

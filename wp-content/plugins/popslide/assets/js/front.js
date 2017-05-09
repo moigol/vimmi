@@ -81,8 +81,8 @@ function popslide() {
 }
 
 jQuery(document).ready(function($) {
-
-	if ( popslide_settings.status.active == true && typeof $.cookie(popslide_settings.cookie.name) === 'undefined' ) {
+	// On admin only #if ( popslide_settings.status.active == true && typeof $.cookie(popslide_settings.cookie.name) === 'undefined' ) { #
+	if ( popslide_settings.status.active == true ) {
 
 		if ( sessionStorage.getItem('popslide') == null ) {
 			var hits = 1;
