@@ -259,7 +259,6 @@
 				
 				<div id="header-section" class="<?php echo $header_layout; ?> <?php echo $logo_class; ?>">
 					<?php echo sf_header($header_layout); ?>
-                    <a class="header-join" href="http://vimmi.loc/join-now/">Join our mailing list and receive a free eBook</a>
 				</div>
 			
 			</div>

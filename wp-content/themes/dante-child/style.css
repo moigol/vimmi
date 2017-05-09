@@ -90,41 +90,10 @@ input[type="submit"], .wpcf7 input.wpcf7-submit[type="submit"], .gform_wrapper i
     font-family: Arial;
 }
 
-#popup_content {
-    padding: 30px 10px 30px 40px;
-}
-
-#itro_popup {
-    border-color: #000000!important;
-}
-
-#popup_content h3.infusion-form {
-    font-weight: 900;
-    text-align: center;
-    padding-right: 30px;
-}
-
-#popup_content .infusion-submit {
-    margin-top: 20px;
-}
-
-
-.header-join {
-    float: right;
-    margin: -96px 0 0 0;
-    z-index: 99;
-    position: relative;
-    padding: 7px 13px 7px;
-    font-weight: 600;
-    background-color: #1dc6df;
-    margin-right: 30px;
-    color: #ffffff;
-    border-radius: 4px;
-}
-
-a.header-join:hover {
-    color: #ffffff;
-    background-color: #32b5c1;
+a.clickhere {
+    font-style: italic;
+    color: #09b1bf;
+    font-size: 21px;
 }
 
 /*mo custom*/
