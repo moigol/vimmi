@@ -76,7 +76,7 @@ class POPSLIDE_BACK {
 	                <a href="#settings" class="nav-tab nav-tab-active"><?php _e('Settings', 'popslide'); ?></a>
 	                <a href="#content" class="nav-tab"><?php _e('Content', 'popslide'); ?></a>
 	                <a href="#styling" class="nav-tab"><?php _e('Styling', 'popslide'); ?></a>
-	                <a href="#pro" class="nav-tab"><?php _e('PRO', 'popslide'); ?></a>
+	                <?php /*?><a href="#pro" class="nav-tab"><?php _e('PRO', 'popslide'); ?></a><?php */?>
 	            </h2>
 
 	            <div class="popslide-tabs-wrapper">
@@ -157,8 +157,8 @@ class POPSLIDE_BACK {
 
 							<label for="popslide_cookie_name">
 								<?php _e('Cookie name', 'popslide') ?>: 
-								<input id="popslide_cookie_name" type="text" name="" <?php echo $disabled; ?> value="<?php echo $this->settings->cookie->name; ?>" /> 
-								<a href="#" class="popslide-go-to-pro dashicons dashicons-info" title="<?php _e('Get the PRO version', 'popslide') ?>"></a>
+								<input id="popslide_cookie_name" type="text" name="cookie[name]" value="<?php echo $this->settings->cookie->name; ?>" /> 
+								<?php /*?><a href="#" class="popslide-go-to-pro dashicons dashicons-info" title="<?php _e('Get the PRO version', 'popslide') ?>"></a><?php */?>
 							</label>
 							<p class="description"><?php _e('Changing cookie name will reset saved cookies on users machine and Popslide will be displayed again', 'popslide'); ?></p>
 

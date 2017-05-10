@@ -33,15 +33,13 @@ function popslide() {
 
 			$pop.slideUp(popslide_settings.animation_duration, 'linear');
 
-			if ( popslide_settings.cookie.active == 'true'  && popslide_settings.status.demo != 'true' ) {
-
-				$.cookie(popslide_settings.cookie.name, 'true', { expires: parseInt(popslide_settings.cookie.days), path: '/' });
-
-			}
+			//if ( popslide_settings.cookie.active == 'true'  && popslide_settings.status.demo != 'true' ) {
+				//$.cookie(popslide_settings.cookie.name, 'true', { expires: parseInt(popslide_settings.cookie.days), path: '/' });				
+			//}
 
 		});
 
-		sessionStorage.removeItem('popslide');
+		sessionStorage.removeItem('popslide'); 
 
     });
 
@@ -81,8 +79,15 @@ function popslide() {
 }
 
 jQuery(document).ready(function($) {
+	
+	
 	// On admin only #if ( popslide_settings.status.active == true && typeof $.cookie(popslide_settings.cookie.name) === 'undefined' ) { #
-	if ( popslide_settings.status.active == true ) {
+	var cookieValue = $.cookie(popslide_settings.cookie.name);
+	console.log('cookie now:  '+ cookieValue);
+	
+	$('body').attr('cookie-data',popslide_settings.cookie.name);
+	
+	if ( popslide_settings.status.active == true && cookieValue != 'true') {
 
 		if ( sessionStorage.getItem('popslide') == null ) {
 			var hits = 1;
@@ -103,7 +108,10 @@ jQuery(document).ready(function($) {
 			window.setTimeout(function() { popslide(); }, timeout);
 
 		}
-
+		
+		
+		//$.cookie(popslide_settings.cookie.name, 'true', { expires: parseInt(popslide_settings.cookie.days), path: '/' });
+		console.log('vimmi popslide shown');
 	}
 
 });

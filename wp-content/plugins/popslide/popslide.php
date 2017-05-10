@@ -1,17 +1,17 @@
 <?php
 /*
-Plugin Name: Popslide
+Plugin Name: Modified Popslide
 Description: Best popup slider plugin
-Author: Kuba Mikita
-Author URI: https://www.wpart.pl/
+Author: Ghie Dolontap
+Author URI: https://cutearts.org/
 Version: 999.0
 License: GPL2
-Text Domain: popslide
+Text Domain: mpopslide
 */
 
 /*
 
-    Copyright (C) 2014  Kuba Mikita  hello@underdev.it
+    Copyright (C) 2014  Ghie D.  ghie@cutearts.org
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as
