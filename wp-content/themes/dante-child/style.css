@@ -108,6 +108,21 @@ a.clickhere {
     font-size: 12px;
 }
 
+.spb_content_element.spb_single_image.sf-animation.noframe.col-sm-4.col355 {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.spb_content_element.col-sm-8.lightBlue.col355.spb_box_text.whitestroke {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.spb_content_element.col-sm-8.white.col355.spb_box_text.whitestroke {
+    padding-left: 0;
+    padding-right: 0;
+}
+
 /*mo custom*/
 
 .cell { display: table-cell;vertical-align: middle;}
