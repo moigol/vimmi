@@ -96,6 +96,18 @@ a.clickhere {
     font-size: 21px;
 }
 
+.sidebar .textwidget .infusion-submit {
+    margin-top: 8px;
+}
+
+.sidebar form.infusion-form {
+    margin-left: 15px;
+}
+
+.sidebar .infusion-field {
+    font-size: 12px;
+}
+
 /*mo custom*/
 
 .cell { display: table-cell;vertical-align: middle;}
