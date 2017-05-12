@@ -34,7 +34,6 @@
                 'el_class'                => ''
             ), $atts ) );
             $output = '';
-
             /* SIDEBAR CONFIG
             ================================================== */
             global $sf_sidebar_config;
@@ -59,7 +58,7 @@
             }
 
             if ( $parallax_type == "video" ) {
-                if ( $img_url[0] != "" ) {
+                if ( $img_url[0] != "" ) { 
                     $output .= "\n\t" . '<div class="spb_parallax_asset sf-parallax sf-parallax-video parallax-' . $parallax_video_height . ' spb_content_element bg-type-' . $bg_type . ' ' . $width . $el_class . ' '.$alt_background.'" data-v-center="true" style="background-image: url(' . $img_url[0] . ');">';
                 } else {
                     $output .= "\n\t" . '<div class="spb_parallax_asset sf-parallax sf-parallax-video parallax-' . $parallax_video_height . ' spb_content_element bg-type-' . $bg_type . ' ' . $width . $el_class . ' '.$alt_background.'" data-v-center="true">';

@@ -2537,7 +2537,9 @@
 					if (!isMobileAlt) {
 						parallax.parallaxVideoInit();
 					} else {
-						parallaxAsset.find('video').remove();
+						/*parallaxAsset.find('video').remove();*/
+						// Add video width instead of hiding
+						parallaxAsset.find('video').attr("style", "width:800px;");
 
 						// Fade in
 						parallaxContent.animate({

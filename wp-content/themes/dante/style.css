@@ -8944,9 +8944,9 @@ p.form-submit {
 	-ms-backface-visibility: hidden;
 	-webkit-transform: translate3d(0,0,0);
 }
-.mobile-browser .fw-video-area {
+/*.mobile-browser .fw-video-area {
 	display: none;
-}
+}*/
 .fw-video-close {
 	display: none;
 	position: absolute;
