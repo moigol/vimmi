@@ -80,8 +80,12 @@ get_header(); ?>
 	
 ?>
 
-<div class="inner-page-wrap <?php echo $page_wrap_class; ?> clearfix">
+<div class="inner-page-wrap <?php echo $page_wrap_class; ?> clearfix" style="margin-top:0;">
 	<?php if (have_posts()) : the_post(); ?>
+    
+    <div id="map_container">
+    	<?php echo get_post_meta($post->ID,'map_code', true); ?>
+    </div>	
 
 	<!-- OPEN page -->
 	<div class="clearfix <?php echo $post_class_extra; ?>" id="<?php the_ID(); ?>">

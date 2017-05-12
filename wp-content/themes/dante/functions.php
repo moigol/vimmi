@@ -234,7 +234,8 @@
 		    wp_register_script('sf-theme-scripts', SF_LOCAL_PATH . '/js/theme-scripts.js', 'jquery', NULL, TRUE);
 			
 		    //wp_enqueue_script('fitvids', SF_LOCAL_PATH . '/js/combine/jquery.fitvids.js', 'jquery', NULL , TRUE);		    
-    		wp_enqueue_script('bootstrap-js');
+    		wp_enqueue_script('jquery');
+			wp_enqueue_script('bootstrap-js');
     	    wp_enqueue_script('jquery-ui');
     	    wp_enqueue_script('flexslider');
     		wp_enqueue_script('easing');
